@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 import java.time.LocalDate;
 
@@ -24,7 +25,9 @@ public class AssetBooking {
     private Asset asset;
     @ManyToOne
     private User user;
+    @NotEmpty
     private LocalDate startDate;
+    @NotEmpty
     private LocalDate endDate;
     private Double price;
     private String status;
