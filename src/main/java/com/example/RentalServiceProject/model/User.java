@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.model;
 
+import com.example.RentalServiceProject.InitialStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,7 +32,7 @@ public class User {
     @NotEmpty
     @Size(min = 6,message = "CNIC should not be less than 6 ")
     private String cnic;
-    private String status;
-
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
 
 }
