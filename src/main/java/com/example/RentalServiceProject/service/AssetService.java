@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.repo.AssetRepository;
@@ -20,18 +21,12 @@ public class AssetService {
         return assetRepository.findAll();
     }
 
+    public List<Asset> getAssetByStatus(){
+        return assetRepository.findByStatus(InitialStatus.Published);
+    }
+
     public AssetDto addAsset_InDb(AssetDto assetDto) {
         return todto(assetRepository.save(dto(assetDto)));
-    }
-
-    public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).location(assetDto.getLocation())
-                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
-    }
-
-    public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).location(asset.getLocation())
-                .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
     }
 
 
@@ -54,5 +49,15 @@ public class AssetService {
             update_asset.setUser(assetDto.getUser());
         }
         return  todto(assetRepository.save(update_asset));
+    }
+
+    public Asset dto(AssetDto assetDto){
+        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).location(assetDto.getLocation())
+                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
+    }
+
+    public AssetDto todto(Asset asset){
+        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).location(asset.getLocation())
+                .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
     }
 }

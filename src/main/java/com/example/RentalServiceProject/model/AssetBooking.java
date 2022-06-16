@@ -1,11 +1,12 @@
 package com.example.RentalServiceProject.model;
 
 
+import com.example.RentalServiceProject.InitialStatus;
 import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.*;
 
 import java.time.LocalDate;
 
@@ -25,11 +26,12 @@ public class AssetBooking {
     private Asset asset;
     @ManyToOne
     private User user;
-    @NotEmpty
+    @NotNull
     private LocalDate startDate;
-    @NotEmpty
+    @NotNull
     private LocalDate endDate;
     private Double price;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
 
 }

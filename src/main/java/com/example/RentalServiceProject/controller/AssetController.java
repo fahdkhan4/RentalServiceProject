@@ -20,8 +20,8 @@ public class AssetController {
     AssetService assetService;
 
     @GetMapping("/asset")
-    public ResponseEntity<List<Asset>> getAllAsset(){
-        List<Asset> assets = assetService.getAllAssets();
+    public ResponseEntity<List<Asset>> getAssetByStatus(){
+        List<Asset> assets = assetService.getAssetByStatus();
         if(!assets.isEmpty()){
             return ResponseEntity.ok(assets);
         }
@@ -30,6 +30,7 @@ public class AssetController {
 
     @PostMapping("/asset")
     public ResponseEntity<AssetDto> addAsset(@RequestBody AssetDto assetDto){
+        System.out.println(assetDto);
         try{
             return ResponseEntity.ok(assetService.addAsset_InDb(assetDto));
         }catch (Exception e){

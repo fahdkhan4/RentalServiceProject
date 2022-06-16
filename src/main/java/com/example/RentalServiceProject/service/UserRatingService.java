@@ -1,11 +1,10 @@
 package com.example.RentalServiceProject.service;
-
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.UserRatingDto;
 import com.example.RentalServiceProject.model.UserRatingAndReview;
 import com.example.RentalServiceProject.repo.UserRatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -21,6 +20,10 @@ public class UserRatingService {
 
     public List<UserRatingAndReview> getAllUserRatingAndReviews() {
         return userRatingRepository.findAll();
+    }
+
+    public List<UserRatingAndReview> getUserRatingAndReviewsByStatus() {
+        return userRatingRepository.findByStatus(InitialStatus.Published);
     }
 
     public Optional<UserRatingAndReview> getUserRatingAndReviewsById(Long id) {
@@ -52,4 +55,6 @@ public class UserRatingService {
         return  UserRatingDto.builder().user(userRatingAndReview.getUser()).userRatingAndReviewId(userRatingAndReview.getUserRatingAndReviewId())
                 .status(userRatingAndReview.getStatus()).provider(userRatingAndReview.getProvider()).rating(userRatingAndReview.getRating()).review(userRatingAndReview.getReview()).build();
     }
+
+
 }

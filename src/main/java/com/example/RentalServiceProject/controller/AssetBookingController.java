@@ -21,8 +21,8 @@ public class AssetBookingController {
     AssetBookingService assetBookingService;
 
     @GetMapping("/assetbooking")
-    public ResponseEntity<List<AssetBooking>> getAllAssetbooking(){
-        List<AssetBooking> assetbooking = assetBookingService.getAllAssetBooking();
+    public ResponseEntity<List<AssetBooking>> getAssetbookingByStatus(){
+        List<AssetBooking> assetbooking = assetBookingService.getAssetBookingByStatus();
         if(!assetbooking.isEmpty()){
             return ResponseEntity.ok(assetbooking);
         }
@@ -31,6 +31,7 @@ public class AssetBookingController {
 
     @PostMapping("/assetbooking")
     public ResponseEntity<AssetBookingDto> addAssetbooking(@RequestBody AssetBookingDto assetbookingDto){
+        System.out.println(assetbookingDto);
         try{
             return ResponseEntity.ok(assetBookingService.addAssetBooking_In_db(assetbookingDto));
         }catch (Exception e){

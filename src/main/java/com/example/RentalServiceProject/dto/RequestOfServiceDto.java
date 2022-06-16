@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.dto;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.repo.RequestOfServiceRepository;
 import lombok.*;
@@ -18,7 +19,7 @@ public class RequestOfServiceDto {
     private Long id;
     private String type;
     private String details;
-    private String status;
+    private InitialStatus status = InitialStatus.in_review;
     private User user;
 
 }

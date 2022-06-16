@@ -2,12 +2,10 @@ package com.example.RentalServiceProject.model;
 
 import com.example.RentalServiceProject.InitialStatus;
 import lombok.*;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
-
 
 @Data
 @ToString

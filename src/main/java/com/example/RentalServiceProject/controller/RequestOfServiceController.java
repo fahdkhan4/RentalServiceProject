@@ -19,8 +19,8 @@ public class RequestOfServiceController {
     RequestOfServiceService requestOfServiceService;
 
     @GetMapping("/requestofservice")
-    public ResponseEntity<List<RequestOfService>> getAllRequestOfService(){
-        List<RequestOfService> requestOfService = requestOfServiceService.getAllRequestOfService();
+    public ResponseEntity<List<RequestOfService>> getRequestOfServiceByStatus(){
+        List<RequestOfService> requestOfService = requestOfServiceService.getRequestOfServiceByStatus();
         if(!requestOfService.isEmpty()){
             return ResponseEntity.ok(requestOfService);
         }

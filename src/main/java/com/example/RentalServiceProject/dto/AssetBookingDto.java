@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.dto;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.model.User;
 import lombok.*;
@@ -20,6 +21,6 @@ public class AssetBookingDto {
     private LocalDate startDate;
     private LocalDate endDate;
     private Double price;
-    private String status;
+    private InitialStatus status = InitialStatus.in_review;
 
 }

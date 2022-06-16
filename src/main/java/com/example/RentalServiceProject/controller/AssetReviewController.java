@@ -20,7 +20,7 @@ public class AssetReviewController {
 
     @GetMapping("/assetreview")
     public ResponseEntity<List<AssetReview>> getAllAssetReview(){
-        List<AssetReview> assetReviews = assetReviewService.getAllAssetBooking();
+        List<AssetReview> assetReviews = assetReviewService.getAssetReviewByStatus();
         if(!assetReviews.isEmpty()){
             return ResponseEntity.ok(assetReviews);
         }
@@ -28,9 +28,9 @@ public class AssetReviewController {
     }
 
     @PostMapping("/assetreview")
-    public ResponseEntity<AssetReviewDto> addAssetReview(@RequestBody AssetReviewDto assetbookingDto){
+    public ResponseEntity<AssetReviewDto> addAssetReview(@RequestBody AssetReviewDto assetReviewDto){
         try{
-            return ResponseEntity.ok(assetReviewService.addAssetBooking_In_db(assetbookingDto));
+            return ResponseEntity.ok(assetReviewService.addAssetReview_In_db(assetReviewDto));
         }catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -39,7 +39,7 @@ public class AssetReviewController {
 
     @GetMapping("/assetreview/{id}")
     public ResponseEntity<Optional<AssetReview>> getAssetReview_By_Id(@PathVariable Long id){
-        Optional<AssetReview> assetReview = assetReviewService.getAssetBooking_ById(id);
+        Optional<AssetReview> assetReview = assetReviewService.getAssetReview_ById(id);
         if(assetReview.isPresent()){
             return  ResponseEntity.ok(assetReview);
         }
@@ -49,7 +49,7 @@ public class AssetReviewController {
     @PutMapping("/assetreview/{id}")
     public ResponseEntity<Optional<AssetReviewDto>> updateAssetReview_By_Id(@PathVariable Long id,@RequestBody AssetReviewDto assetDto){
         try{
-            return ResponseEntity.ok(assetReviewService.updateAssetBooking_byId(id,assetDto));
+            return ResponseEntity.ok(assetReviewService.updateAssetReview_byId(id,assetDto));
         }catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -59,7 +59,7 @@ public class AssetReviewController {
     @DeleteMapping("/assetreview/{id}")
     public ResponseEntity<Void> deleteAssetReview_By_Id(@PathVariable Long id){
         try{
-            assetReviewService.deleteAssetBooking_byId(id);
+            assetReviewService.deleteAssetReview_byId(id);
             return ResponseEntity.ok().build();
         }
         catch (Exception e){

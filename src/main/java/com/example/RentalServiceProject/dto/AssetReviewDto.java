@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.dto;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.model.User;
 import lombok.*;
@@ -14,7 +15,7 @@ public class AssetReviewDto {
     private Long id;
     private Double rating;
     private String review;
-    private String status;
+    private InitialStatus status = InitialStatus.in_review;
     private Asset asset;
     private User user;
 }

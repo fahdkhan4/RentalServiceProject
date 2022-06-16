@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetReviewDto;
 import com.example.RentalServiceProject.model.AssetReview;
 import com.example.RentalServiceProject.repo.AssetReviewRepository;
@@ -16,20 +17,24 @@ public class AssetReviewService {
     AssetReviewRepository assetReviewRepository;
 
 
-    public List<AssetReview> getAllAssetBooking() {
+    public List<AssetReview> getAllAssetReview() {
         return assetReviewRepository.findAll();
     }
 
-    public AssetReviewDto addAssetBooking_In_db(AssetReviewDto assetbookingDto) {
+    public List<AssetReview> getAssetReviewByStatus(){
+        return  assetReviewRepository.findByStatus(InitialStatus.Published);
+    }
+
+    public AssetReviewDto addAssetReview_In_db(AssetReviewDto assetbookingDto) {
         return todto(assetReviewRepository.save(dto(assetbookingDto)));
     }
 
-    public Optional<AssetReview> getAssetBooking_ById(Long id) {
+    public Optional<AssetReview> getAssetReview_ById(Long id) {
         return assetReviewRepository.findById(id);
     }
 
-    public Optional<AssetReviewDto> updateAssetBooking_byId(Long id, AssetReviewDto assetDto) {
-        AssetReview assetReview = getAllAssetBooking().stream().filter(el->el.getId().equals(id)).findAny().get();
+    public Optional<AssetReviewDto> updateAssetReview_byId(Long id, AssetReviewDto assetDto) {
+        AssetReview assetReview = getAllAssetReview().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(assetReview != null){
             assetReview.setAsset(assetDto.getAsset());
             assetReview.setReview(assetDto.getReview());
@@ -40,7 +45,7 @@ public class AssetReviewService {
         return Optional.of(todto(assetReviewRepository.save(assetReview)));
     }
 
-    public void deleteAssetBooking_byId(Long id) {
+    public void deleteAssetReview_byId(Long id) {
         assetReviewRepository.deleteById(id);
     }
 

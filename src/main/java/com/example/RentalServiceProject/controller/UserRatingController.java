@@ -31,8 +31,8 @@ public class UserRatingController {
     }
 
     @GetMapping("/userrating")
-    public ResponseEntity<List<UserRatingAndReview>> get_UserRatingAndReviews(){
-        Optional<List<UserRatingAndReview>> getUsersRating = Optional.ofNullable(userRatingService.getAllUserRatingAndReviews());
+    public ResponseEntity<List<UserRatingAndReview>> get_UserRatingAndReviewsByStatus(){
+        Optional<List<UserRatingAndReview>> getUsersRating = Optional.ofNullable(userRatingService.getUserRatingAndReviewsByStatus());
         if(getUsersRating.get().size()<=0){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }

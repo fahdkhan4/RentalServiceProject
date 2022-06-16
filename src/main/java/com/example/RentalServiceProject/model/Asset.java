@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.model;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -25,7 +26,8 @@ public class Asset {
     private Double pricePerDay;
     private String location;
     private String type;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
     @ManyToOne
     private User user;
     @OneToMany(mappedBy = "asset")

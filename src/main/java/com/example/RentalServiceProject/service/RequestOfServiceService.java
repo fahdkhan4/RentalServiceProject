@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.RequestOfServiceDto;
 import com.example.RentalServiceProject.model.RequestOfService;
 import com.example.RentalServiceProject.repo.RequestOfServiceRepository;
@@ -18,6 +19,10 @@ public class RequestOfServiceService {
 
     public List<RequestOfService> getAllRequestOfService() {
         return serviceRepository.findAll();
+    }
+
+    public List<RequestOfService> getRequestOfServiceByStatus() {
+        return serviceRepository.findByStatus(InitialStatus.Published);
     }
 
     public RequestOfServiceDto addRequestOfService_In_db(RequestOfServiceDto requestOfServiceDto) {
@@ -52,4 +57,6 @@ public class RequestOfServiceService {
         return RequestOfServiceDto.builder().id(requestOfService.getId()).status(requestOfService.getStatus())
                 .details(requestOfService.getDetails()).type(requestOfService.getType()).user(requestOfService.getUser()).build();
     }
+
+
 }

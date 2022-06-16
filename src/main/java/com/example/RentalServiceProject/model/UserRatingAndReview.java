@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.model;
 
+import com.example.RentalServiceProject.InitialStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class UserRatingAndReview {
     private User provider;
     private Double rating;
     private String review;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
 
 }

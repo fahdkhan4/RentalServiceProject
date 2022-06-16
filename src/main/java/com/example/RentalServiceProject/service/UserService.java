@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.repo.UserRepository;
@@ -19,8 +20,12 @@ public class UserService {
         return toDto(userRepository.save(dto(userDto)));
     }
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<User> getUsersbyStatus() {
+        return userRepository.findByStatus(InitialStatus.Published);
+    }
+
+    public List<User> getAllUsers(){
+        return  userRepository.findAll();
     }
 
     public Optional<User> getUserById(Long id) {

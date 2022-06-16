@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.model;
 
+import com.example.RentalServiceProject.InitialStatus;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ public class RequestOfService {
     private Long id;
     private String type;
     private String details;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
     @ManyToOne
     private User user;
 }

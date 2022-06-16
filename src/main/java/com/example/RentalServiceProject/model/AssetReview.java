@@ -1,5 +1,7 @@
 package com.example.RentalServiceProject.model;
 
+import com.example.RentalServiceProject.InitialStatus;
+import com.sun.org.apache.xml.internal.security.Init;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +20,8 @@ public class AssetReview {
     private Long id;
     private Double rating;
     private String review;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private InitialStatus status = InitialStatus.in_review;
     @ManyToOne
     private Asset asset;
     @ManyToOne

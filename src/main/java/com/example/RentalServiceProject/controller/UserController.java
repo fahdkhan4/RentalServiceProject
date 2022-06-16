@@ -17,6 +17,7 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
     @PostMapping("/user")
     public ResponseEntity<UserDto> add_User(@RequestBody UserDto userDto){
           try {
@@ -31,7 +32,7 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> get_Users(){
-        Optional<List<User>> getUsers = Optional.ofNullable(userService.getAllUsers());
+        Optional<List<User>> getUsers = Optional.ofNullable(userService.getUsersbyStatus());
         if(getUsers.get().size()<=0){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -71,5 +72,9 @@ public class UserController {
     }
 
 //    @PatchMapping("/user/{id}")
-//    public
+//    public ResponseEntity<Optional<User>> update_specificProperty(){
+//
+//    }
+
+
 }
