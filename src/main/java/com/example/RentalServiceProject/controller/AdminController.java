@@ -1,8 +1,7 @@
 package com.example.RentalServiceProject.controller;
 import com.example.RentalServiceProject.dto.*;
-import com.example.RentalServiceProject.model.User;
+import com.example.RentalServiceProject.model.*;
 import com.example.RentalServiceProject.service.AdminService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,15 +10,18 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class AdminController {
+//                                                              Constructor injection
+    private final AdminService adminService;
 
-    @Autowired
-    AdminService adminService;
-
+    AdminController(AdminService adminService1){
+        this.adminService = adminService1;
+    }
+    
     @GetMapping("/user")
     public ResponseEntity<List<User>> getALLUsers(){
-        List<User> users = adminService.getAllUser();
+        List<User> users = adminService.getAllUsers();
         if(!users.isEmpty()){
             return ResponseEntity.ok(users);
         }
@@ -37,6 +39,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/asset")
+    public ResponseEntity<List<Asset>> getALLAsset(){
+        List<Asset> assets = adminService.getAllAssets();
+        if(!assets.isEmpty()){
+            return ResponseEntity.ok(assets);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PatchMapping("/assetstatus/{id}")
     public ResponseEntity<AssetDto> getUser_ForUpdate(@PathVariable Long id, @RequestBody AssetDto assetDto){
         try{
@@ -46,6 +57,15 @@ public class AdminController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/assetbooking")
+    public ResponseEntity<List<AssetBooking>> getALLAssetBooking(){
+        List<AssetBooking> allAssetBooking = adminService.getAllAssetBooking();
+        if(!allAssetBooking.isEmpty()){
+            return ResponseEntity.ok(allAssetBooking);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PatchMapping("/assetbookingstatus/{id}")
@@ -58,6 +78,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/assetreview")
+    public ResponseEntity<List<AssetReview>> getALLAssetReview(){
+        List<AssetReview> allAssetReview = adminService.getAllAssetReview();
+        if(!allAssetReview.isEmpty()){
+            return ResponseEntity.ok(allAssetReview);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PatchMapping("/assetreviewstatus/{id}")
     public ResponseEntity<AssetReviewDto> getAssetReview_ForUpdate(@PathVariable Long id, @RequestBody AssetReviewDto assetReviewDto){
         try{
@@ -68,6 +97,15 @@ public class AdminController {
         }
     }
 
+    @GetMapping("/userrating")
+    public ResponseEntity<List<UserRatingAndReview>> getALLUserRatingAndReview(){
+        List<UserRatingAndReview> allUserRatingAndReview = adminService.getAllUserRatingAndReview();
+        if(!allUserRatingAndReview.isEmpty()){
+            return ResponseEntity.ok(allUserRatingAndReview);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    }
+
     @PatchMapping("/userratingstatus/{id}")
     public ResponseEntity<UserRatingDto> getUserRating_ForUpdate(@PathVariable Long id, @RequestBody UserRatingDto userRatingDto){
         try{
@@ -76,6 +114,15 @@ public class AdminController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/requestofservice")
+    public ResponseEntity<List<RequestOfService>> getALLRequestOfService(){
+        List<RequestOfService> allRequestOfService = adminService.getAllRequestOfService();
+        if(!allRequestOfService.isEmpty()){
+            return ResponseEntity.ok(allRequestOfService);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @PatchMapping("/requeststatus/{id}")

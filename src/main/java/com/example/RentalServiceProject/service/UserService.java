@@ -57,4 +57,5 @@ public class UserService {
         return UserDto.builder().Id(user.getId()).name(user.getName()).cnic(user.getCnic()).email(user.getEmail())
                 .status(user.getStatus()).number(user.getNumber()).type(user.getType()).build();
     }
+
 }

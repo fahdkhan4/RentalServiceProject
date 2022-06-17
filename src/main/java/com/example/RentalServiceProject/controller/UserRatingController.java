@@ -1,5 +1,4 @@
 package com.example.RentalServiceProject.controller;
-
 import com.example.RentalServiceProject.dto.UserRatingDto;
 import com.example.RentalServiceProject.model.UserRatingAndReview;
 import com.example.RentalServiceProject.service.UserRatingService;

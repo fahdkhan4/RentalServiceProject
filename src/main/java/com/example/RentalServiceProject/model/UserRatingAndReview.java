@@ -25,4 +25,5 @@ public class UserRatingAndReview {
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;
 
+
 }
