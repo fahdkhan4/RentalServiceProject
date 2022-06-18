@@ -38,7 +38,6 @@ public class UserRatingService {
         UserRatingAndReview userRating = getAllUserRatingAndReviews().stream().filter(el->el.getUserRatingAndReviewId().equals(id)).findAny().get();
         if(userRating != null){
             userRating.setUser(userRatingDto.getUser());
-            userRating.setStatus(userRatingDto.getStatus());
             userRating.setRating(userRatingDto.getRating());
             userRating.setReview(userRatingDto.getReview());
             userRating.setProvider(userRatingDto.getProvider());

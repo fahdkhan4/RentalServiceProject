@@ -35,7 +35,6 @@ public class AssetBookingService {
             updateAssetBooking.setStartDate(assetDto.getStartDate());
             updateAssetBooking.setEndDate(assetDto.getEndDate());
             updateAssetBooking.setPrice(assetDto.getPrice());
-            updateAssetBooking.setStatus(assetDto.getStatus());
         }
         return Optional.of(todto(assetBookingRepository.save(updateAssetBooking)));
     }

@@ -44,7 +44,6 @@ public class UserService {
            updateUser.setCnic(userDto.getCnic());
            updateUser.setNumber(userDto.getNumber());
            updateUser.setType(userDto.getType());
-           updateUser.setStatus(userDto.getStatus());
         }
         return Optional.of(toDto(userRepository.save(updateUser)));
     }

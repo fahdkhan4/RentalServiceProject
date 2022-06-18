@@ -1,6 +1,7 @@
 package com.example.RentalServiceProject.controller;
 
 import com.example.RentalServiceProject.dto.AssetDto;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.service.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,6 +69,11 @@ public class AssetController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/asset/search")
+    public ResponseEntity<List<AssetDto>> search(@RequestBody SearchCriteria search){
+         return ResponseEntity.ok(assetService.search(search));
     }
 
 }

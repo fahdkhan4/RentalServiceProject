@@ -40,7 +40,6 @@ public class RequestOfServiceService {
     public Optional<RequestOfServiceDto> updateRequestOfService_byId(Long id, RequestOfServiceDto assetDto) {
         RequestOfService requestOfService = getAllRequestOfService().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(requestOfService != null){
-            requestOfService.setStatus(assetDto.getStatus());
             requestOfService.setDetails(assetDto.getDetails());
             requestOfService.setType(assetDto.getType());
             requestOfService.setUser(assetDto.getUser());

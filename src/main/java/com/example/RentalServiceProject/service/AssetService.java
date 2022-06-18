@@ -2,14 +2,19 @@ package com.example.RentalServiceProject.service;
 
 import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetDto;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.repo.AssetRepository;
+import com.example.RentalServiceProject.repo.specification.AssetSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class AssetService {
@@ -43,7 +48,6 @@ public class AssetService {
         if(update_asset != null){
             update_asset.setName(assetDto.getName());
             update_asset.setLocation(assetDto.getLocation());
-            update_asset.setStatus(assetDto.getStatus());
             update_asset.setPricePerDay(assetDto.getPricePerDay());
             update_asset.setType(assetDto.getType());
             update_asset.setUser(assetDto.getUser());
@@ -59,5 +63,11 @@ public class AssetService {
     public AssetDto todto(Asset asset){
         return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).location(asset.getLocation())
                 .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
+    }
+
+    public List<AssetDto> search(SearchCriteria search) {
+        AssetSpecification as = new AssetSpecification(search);
+        List<Asset> assets =  assetRepository.findAll(as);
+        return assets.stream().map(asset -> todto(asset)).collect(Collectors.toList());
     }
 }

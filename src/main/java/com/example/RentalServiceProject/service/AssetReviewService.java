@@ -38,7 +38,6 @@ public class AssetReviewService {
         if(assetReview != null){
             assetReview.setAsset(assetDto.getAsset());
             assetReview.setReview(assetDto.getReview());
-            assetReview.setStatus(assetDto.getStatus());
             assetReview.setUser(assetDto.getUser());
             assetReview.setRating(assetDto.getRating());
         }
