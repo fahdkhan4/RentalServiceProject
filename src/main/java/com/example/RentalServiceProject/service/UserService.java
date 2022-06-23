@@ -1,14 +1,18 @@
 package com.example.RentalServiceProject.service;
 
 import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.repo.UserRepository;
+import com.example.RentalServiceProject.repo.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -46,6 +50,12 @@ public class UserService {
            updateUser.setType(userDto.getType());
         }
         return Optional.of(toDto(userRepository.save(updateUser)));
+    }
+
+    public List<UserDto> filteringUser(SearchCriteria criteria){
+        UserSpecification userSpecification = new UserSpecification(criteria);
+        List<User> getUser = userRepository.findAll(userSpecification);
+        return getUser.stream().map(user -> toDto(user)).collect(Collectors.toList());
     }
 
     public User dto(UserDto dto){

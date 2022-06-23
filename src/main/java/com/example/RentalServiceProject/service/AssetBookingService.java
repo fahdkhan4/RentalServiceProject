@@ -2,12 +2,15 @@ package com.example.RentalServiceProject.service;
 
 import com.example.RentalServiceProject.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetBookingDto;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.AssetBooking;
 import com.example.RentalServiceProject.repo.AssetBookingRepository;
+import com.example.RentalServiceProject.repo.specification.AssetBookingSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AssetBookingService {
@@ -60,4 +63,9 @@ public class AssetBookingService {
                 .price(assetBooking.getPrice()).build();
     }
 
+    public List<AssetBookingDto> getFilteredAssetBooking(SearchCriteria searchCriteria) {
+        AssetBookingSpecification assetBookingSpecification = new AssetBookingSpecification(searchCriteria);
+        List<AssetBooking> assetBookings = assetBookingRepository.findAll(assetBookingSpecification);
+        return assetBookings.stream().map(el->todto(el)).collect(Collectors.toList());
+    }
 }

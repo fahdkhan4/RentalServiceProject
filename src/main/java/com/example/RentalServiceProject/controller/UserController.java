@@ -1,4 +1,5 @@
 package com.example.RentalServiceProject.controller;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.service.UserService;
@@ -71,6 +72,14 @@ public class UserController {
         }
     }
 
+    @GetMapping("/user/search")
+    public ResponseEntity<List<UserDto>> filterUser(@RequestBody SearchCriteria searchCriteria){
+        List<UserDto> filteredUser = userService.filteringUser(searchCriteria);
+        if(!filteredUser.isEmpty()){
+            return ResponseEntity.ok(filteredUser);
+        }
+        return ResponseEntity.status((HttpStatus.NOT_FOUND)).build();
+    }
 //    @PatchMapping("/user/{id}")
 //    public ResponseEntity<Optional<User>> update_specificProperty(){
 //

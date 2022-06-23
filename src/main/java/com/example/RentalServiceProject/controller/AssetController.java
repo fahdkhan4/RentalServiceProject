@@ -72,7 +72,7 @@ public class AssetController {
     }
 
     @GetMapping("/asset/search")
-    public ResponseEntity<List<AssetDto>> search(@RequestBody SearchCriteria search){
+    public ResponseEntity<List<AssetDto>> filterAsset(@RequestBody SearchCriteria search){
          return ResponseEntity.ok(assetService.search(search));
     }
 

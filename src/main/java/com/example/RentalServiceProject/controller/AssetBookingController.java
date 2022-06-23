@@ -2,6 +2,7 @@ package com.example.RentalServiceProject.controller;
 
 import com.example.RentalServiceProject.dto.AssetBookingDto;
 import com.example.RentalServiceProject.dto.AssetDto;
+import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.model.AssetBooking;
 import com.example.RentalServiceProject.service.AssetBookingService;
@@ -69,6 +70,16 @@ public class AssetBookingController {
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/assetbooking/search")
+    public ResponseEntity<List<AssetBookingDto>>  filteredAssetBooking(@RequestBody SearchCriteria searchCriteria){
+        List<AssetBookingDto> assetBookingDtos = assetBookingService.getFilteredAssetBooking(searchCriteria);
+        if(!assetBookingDtos.isEmpty()){
+            return ResponseEntity.ok(assetBookingDtos);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+
     }
 
 }
