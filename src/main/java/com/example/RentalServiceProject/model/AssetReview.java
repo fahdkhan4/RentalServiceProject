@@ -1,7 +1,6 @@
 package com.example.RentalServiceProject.model;
 
 import com.example.RentalServiceProject.InitialStatus;
-import com.sun.org.apache.xml.internal.security.Init;
 import lombok.*;
 
 import javax.persistence.*;
