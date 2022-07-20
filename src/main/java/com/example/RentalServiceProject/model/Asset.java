@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.model;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
@@ -20,8 +20,6 @@ public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long Id;
-    @NotEmpty
-    @Size(min = 2,message = "Size of the asset should greater than 2 ")
     private String name;
     private Double pricePerDay;
     private String location;

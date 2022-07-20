@@ -49,7 +49,7 @@ public class AdminController {
     }
 
     @PatchMapping("/assetstatus/{id}")
-    public ResponseEntity<AssetDto> getUser_ForUpdate(@PathVariable Long id, @RequestBody AssetDto assetDto){
+    public ResponseEntity<AssetDto> getAsset_ForUpdate(@PathVariable Long id, @RequestBody AssetDto assetDto){
         try{
             return ResponseEntity.ok(adminService.updateAsset_Status(id,assetDto));
         }

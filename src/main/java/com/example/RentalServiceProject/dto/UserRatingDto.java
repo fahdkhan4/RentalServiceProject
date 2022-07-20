@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.dto;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.model.User;
 import lombok.*;
 

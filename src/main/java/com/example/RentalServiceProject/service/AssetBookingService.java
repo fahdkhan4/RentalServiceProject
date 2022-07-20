@@ -1,6 +1,7 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetBookingDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.AssetBooking;
@@ -19,11 +20,19 @@ public class AssetBookingService {
     AssetBookingRepository assetBookingRepository;
 
     public List<AssetBooking> getAllAssetBooking() {
-        return assetBookingRepository.findAll();
+        List<AssetBooking> assetBookings = assetBookingRepository.findAll();
+        if(!assetBookings.isEmpty()){
+            return assetBookings;
+        }
+        throw new ContentNotFoundException("No AssetBookings Present in the record");
     }
 
     public List<AssetBooking> getAssetBookingByStatus(){
-        return assetBookingRepository.findByStatus(InitialStatus.Published);
+        List<AssetBooking> assetBookings = assetBookingRepository.findByStatus(InitialStatus.Published);
+        if(!assetBookings.isEmpty()){
+            return assetBookings;
+        }
+        throw new ContentNotFoundException("No AssetBookings Present in the record");
     }
 
     public AssetBookingDto addAssetBooking_In_db(AssetBookingDto assetDto) {
@@ -44,7 +53,11 @@ public class AssetBookingService {
 
 
     public Optional<AssetBooking> getAssetBooking_ById(Long id) {
-        return assetBookingRepository.findById(id);
+        Optional<AssetBooking> assetBooking = assetBookingRepository.findById(id);
+        if(assetBooking.isPresent()){
+            return assetBooking;
+        }
+        throw new ContentNotFoundException("No AssetBooking Found with id "+id);
     }
 
     public void deleteAssetBooking_byId(Long id) {

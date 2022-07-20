@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.repo;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

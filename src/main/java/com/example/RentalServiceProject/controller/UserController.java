@@ -1,4 +1,5 @@
 package com.example.RentalServiceProject.controller;
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ public class UserController {
 
 
     @PostMapping("/user")
-    public ResponseEntity<UserDto> add_User(@RequestBody UserDto userDto){
+    public ResponseEntity<UserDto> add_User(@Valid @RequestBody UserDto userDto){
           try {
               Optional<UserDto> postuser= Optional.of(userService.addingUser(userDto));
               return ResponseEntity.of(postuser);
@@ -33,37 +35,31 @@ public class UserController {
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> get_Users(){
-        Optional<List<User>> getUsers = Optional.ofNullable(userService.getUsersbyStatus());
-        if(getUsers.get().size()<=0){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-        return ResponseEntity.of(getUsers);
+        List<User> getUsers = userService.getUsersbyStatus();
+        return ResponseEntity.ok(getUsers);
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Optional<User>> get_Users_by_Id(@PathVariable Long id){
         Optional<User> getbyid = userService.getUserById(id);
-        if(getbyid.isPresent()){
-                return ResponseEntity.ok(getbyid);
-        }
-        return  ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(getbyid);
     }
 
     @DeleteMapping("/user/{id}")
     public  ResponseEntity<Void> delete_User_by_id(@PathVariable Long id){
-       try{
-               userService.deleteUser(id);
-               return ResponseEntity.status(HttpStatus.ACCEPTED).build();
-       }
-       catch (Exception e){
-           System.out.println(e);
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-       }
+
+        try {
+            userService.deleteUser(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        }
+        catch (Exception e){
+            throw new ContentNotFoundException("No User present with id of "+id);
+        }
     }
 
     @PutMapping("/user/{id}")
-    public ResponseEntity<Optional<UserDto>> update_User_By_Id(@PathVariable Long id,@RequestBody UserDto userDto){
-        try{
+    public ResponseEntity<UserDto> update_User_By_Id(@PathVariable Long id,@Valid @RequestBody UserDto userDto){
+        try {
              return ResponseEntity.ok(userService.updateUserById(id,userDto));
         }
         catch (Exception e){
@@ -80,10 +76,6 @@ public class UserController {
         }
         return ResponseEntity.status((HttpStatus.NOT_FOUND)).build();
     }
-//    @PatchMapping("/user/{id}")
-//    public ResponseEntity<Optional<User>> update_specificProperty(){
-//
-//    }
 
 
 }

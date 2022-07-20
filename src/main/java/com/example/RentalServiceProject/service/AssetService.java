@@ -1,19 +1,18 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.User;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.repo.AssetRepository;
 import com.example.RentalServiceProject.repo.specification.AssetSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,16 +20,29 @@ public class AssetService {
 
     @Autowired
     AssetRepository assetRepository;
+    @Autowired
+    UserService userService;
 
     public List<Asset>getAllAssets() {
-        return assetRepository.findAll();
+        List<Asset> assetList = assetRepository.findAll();
+        if(!assetList.isEmpty()){
+            return assetList;
+        }
+        throw new ContentNotFoundException("No Asset Found in Record");
     }
 
     public List<Asset> getAssetByStatus(){
-        return assetRepository.findByStatus(InitialStatus.Published);
+        List<Asset> assetList = assetRepository.findByStatus(InitialStatus.Published);
+        if(!assetList.isEmpty()){
+            return assetList;
+        }
+        throw new ContentNotFoundException("No Asset Found in Round ");
     }
 
     public AssetDto addAsset_InDb(AssetDto assetDto) {
+        User getAssetUser = userService.getUsersbyStatus().stream().filter(el -> el.getId().equals(assetDto.getUser().getId())).findAny().get();
+
+        assetDto.setUser(getAssetUser);
         return todto(assetRepository.save(dto(assetDto)));
     }
 
@@ -40,7 +52,11 @@ public class AssetService {
     }
 
     public Optional<Asset> getUser_ById(Long id) {
-        return assetRepository.findById(id);
+        Optional<Asset> asset = assetRepository.findById(id);
+        if(asset.isPresent()){
+            return asset;
+        }
+        throw new ContentNotFoundException("No Asset Found with id "+id);
     }
 
     public AssetDto updateAsset_byId(Long id, AssetDto assetDto) {

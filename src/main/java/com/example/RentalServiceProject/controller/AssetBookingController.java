@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.controller;
 
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.AssetBookingDto;
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
@@ -24,18 +25,15 @@ public class AssetBookingController {
     @GetMapping("/assetbooking")
     public ResponseEntity<List<AssetBooking>> getAssetbookingByStatus(){
         List<AssetBooking> assetbooking = assetBookingService.getAssetBookingByStatus();
-        if(!assetbooking.isEmpty()){
-            return ResponseEntity.ok(assetbooking);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(assetbooking);
     }
 
     @PostMapping("/assetbooking")
     public ResponseEntity<AssetBookingDto> addAssetbooking(@RequestBody AssetBookingDto assetbookingDto){
-        System.out.println(assetbookingDto);
         try{
             return ResponseEntity.ok(assetBookingService.addAssetBooking_In_db(assetbookingDto));
-        }catch (Exception e){
+        }
+        catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
@@ -44,10 +42,7 @@ public class AssetBookingController {
     @GetMapping("/assetbooking/{id}")
     public ResponseEntity<Optional<AssetBooking>> getAssetbooking_By_Id(@PathVariable Long id){
         Optional<AssetBooking> asset = assetBookingService.getAssetBooking_ById(id);
-        if(asset.isPresent()){
-            return  ResponseEntity.ok(asset);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(asset);
     }
 
     @PutMapping("/assetbooking/{id}")
@@ -64,11 +59,10 @@ public class AssetBookingController {
     public ResponseEntity<Void> deleteAssetbooking_By_Id(@PathVariable Long id){
         try{
             assetBookingService.deleteAssetBooking_byId(id);
-            return ResponseEntity.ok().build();
+            return ResponseEntity.status(HttpStatus.OK).build();
         }
         catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new ContentNotFoundException("Cannot Delete !! No AssetBooking Found with id "+id);
         }
     }
 

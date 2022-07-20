@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetReviewDto;
 import com.example.RentalServiceProject.model.AssetReview;
 import com.example.RentalServiceProject.repo.AssetReviewRepository;

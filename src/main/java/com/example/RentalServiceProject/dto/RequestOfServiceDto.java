@@ -1,11 +1,8 @@
 package com.example.RentalServiceProject.dto;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.model.User;
-import com.example.RentalServiceProject.repo.RequestOfServiceRepository;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
 @Data

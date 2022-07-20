@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.model;
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import lombok.*;
 
 import javax.persistence.*;

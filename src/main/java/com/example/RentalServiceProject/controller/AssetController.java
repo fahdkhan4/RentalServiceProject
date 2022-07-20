@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.controller;
 
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
@@ -9,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,15 +23,11 @@ public class AssetController {
     @GetMapping("/asset")
     public ResponseEntity<List<Asset>> getAssetByStatus(){
         List<Asset> assets = assetService.getAssetByStatus();
-        if(!assets.isEmpty()){
-            return ResponseEntity.ok(assets);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return ResponseEntity.ok(assets);
     }
 
     @PostMapping("/asset")
     public ResponseEntity<AssetDto> addAsset(@RequestBody AssetDto assetDto){
-        System.out.println(assetDto);
         try{
             return ResponseEntity.ok(assetService.addAsset_InDb(assetDto));
         }catch (Exception e){
@@ -43,16 +39,13 @@ public class AssetController {
     @GetMapping("/asset/{id}")
     public ResponseEntity<Optional<Asset>> getAsset_By_Id(@PathVariable Long id){
         Optional<Asset> asset = assetService.getUser_ById(id);
-        if(asset.isPresent()){
-            return  ResponseEntity.ok(asset);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        return  ResponseEntity.ok(asset);
     }
 
     @PutMapping("/asset/{id}")
     public ResponseEntity<AssetDto> updateAsset_By_Id(@PathVariable Long id,@RequestBody AssetDto assetDto){
-        try{
-            return ResponseEntity.ok(assetService.updateAsset_byId(id,assetDto));
+        try {
+            return ResponseEntity.ok(assetService.updateAsset_byId(id, assetDto));
         }catch (Exception e){
             System.out.println(e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -66,8 +59,7 @@ public class AssetController {
             return ResponseEntity.ok().build();
         }
         catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            throw new ContentNotFoundException("Cannot Delete !! No Asset Found with id "+id);
         }
     }
 

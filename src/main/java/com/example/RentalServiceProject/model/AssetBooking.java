@@ -1,7 +1,7 @@
 package com.example.RentalServiceProject.model;
 
 
-import com.example.RentalServiceProject.InitialStatus;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -26,9 +26,7 @@ public class AssetBooking {
     private Asset asset;
     @ManyToOne
     private User user;
-    @NotNull
     private LocalDate startDate;
-    @NotNull
     private LocalDate endDate;
     private Double price;
     @Enumerated(EnumType.STRING)
