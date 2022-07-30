@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.config.FolderHandeler.ImageFolderHandeler;
 import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.SearchCriteria;
@@ -9,19 +10,34 @@ import com.example.RentalServiceProject.repo.UserRepository;
 import com.example.RentalServiceProject.repo.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService {
+public class UserService implements ImageStorage {
 
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    ImageFolderHandeler imageFolderHandeler;
 
-    public UserDto addingUser(UserDto userDto) {
-        return toDto(userRepository.save(dto(userDto)));
+
+    public final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
+
+    public UserDto addingUser(UserDto userDto, MultipartFile image) {
+//                                                                   returning boolean
+            saveImage(image);
+//
+            String userImagePath = "http://localhost:8080/api/image/userimages/"+image.getOriginalFilename();
+            userDto.setImage(userImagePath);
+            return toDto(userRepository.save(dto(userDto)));
     }
 
     public List<User> getUsersbyStatus() {
@@ -70,16 +86,31 @@ public class UserService {
     }
 
     public User dto(UserDto dto){
-        return User.builder().Id(dto.getId()).name(dto.getName()).cnic(dto.getCnic()).email(dto.getEmail())
+        return User.builder().Id(dto.getId()).name(dto.getName()).image(dto.getImage()).cnic(dto.getCnic()).email(dto.getEmail())
                 .status(dto.getStatus()).number(dto.getNumber()).type(dto.getType()).build();
     }
     public UserDto toDto(User user){
-        return UserDto.builder().Id(user.getId()).name(user.getName()).cnic(user.getCnic()).email(user.getEmail())
+        return UserDto.builder().Id(user.getId()).name(user.getName()).image(user.getImage()).cnic(user.getCnic()).email(user.getEmail())
                 .status(user.getStatus()).number(user.getNumber()).type(user.getType()).build();
     }
 
 
+    @Override
+    public String getImageByName() {
 
+        return null;
+    }
 
+    @Override
+    public void saveImage(MultipartFile image) {
+//                                                              check if the image folder is exist
+        imageFolderHandeler.creatingUserImagesFolder();
+            try{
+                Files.copy(image.getInputStream(), Paths.get(imageFolderPath+File.separator+image.getOriginalFilename()));
+            }
+            catch (Exception e){
+                System.out.println("User Image Not Saved"+e);
+            }
+    }
 
 }

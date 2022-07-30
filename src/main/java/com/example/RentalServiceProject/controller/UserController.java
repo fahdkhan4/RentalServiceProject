@@ -4,12 +4,17 @@ import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.service.UserService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+
 import java.util.List;
 import java.util.Optional;
 
@@ -20,18 +25,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-
-    @PostMapping("/user")
-    public ResponseEntity<UserDto> add_User(@Valid @RequestBody UserDto userDto){
-          try {
-              Optional<UserDto> postuser= Optional.of(userService.addingUser(userDto));
-              return ResponseEntity.of(postuser);
-          }
-          catch (Exception e){
-              System.out.println(e);
-              return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-          }
-    }
 
     @GetMapping("/user")
     public ResponseEntity<List<User>> get_Users(){
@@ -60,7 +53,7 @@ public class UserController {
     @PutMapping("/user/{id}")
     public ResponseEntity<UserDto> update_User_By_Id(@PathVariable Long id,@Valid @RequestBody UserDto userDto){
         try {
-             return ResponseEntity.ok(userService.updateUserById(id,userDto));
+            return ResponseEntity.ok(userService.updateUserById(id, userDto));
         }
         catch (Exception e){
             System.out.println(e);
@@ -77,5 +70,30 @@ public class UserController {
         return ResponseEntity.status((HttpStatus.NOT_FOUND)).build();
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<UserDto> uploadImage(@RequestParam("file") MultipartFile image,@RequestParam("data") String userdata){
+        try{
+            if(image.isEmpty()){
+//                                                                         throw image if empty
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+//                                                                    converting String into UserDto Object
+            ObjectMapper mapper = new ObjectMapper();
+            UserDto userDto = mapper.readValue(userdata,UserDto.class);
+
+            if(userDto.getName().equals(null)){
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+            }
+//                                                                     Adding user and file in db
+            return ResponseEntity.ok(userService.addingUser(userDto,image));
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
 
 }
+
+//

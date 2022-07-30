@@ -1,5 +1,6 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.config.FolderHandeler.ImageFolderHandeler;
 import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
@@ -10,18 +11,26 @@ import com.example.RentalServiceProject.repo.AssetRepository;
 import com.example.RentalServiceProject.repo.specification.AssetSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class AssetService {
+public class AssetService implements ImageStorage {
 
     @Autowired
     AssetRepository assetRepository;
     @Autowired
     UserService userService;
+    @Autowired
+    ImageFolderHandeler imageFolderHandeler;
+
+    public final String assetFolderPath = Paths.get("src/main/resources/static/image/assetimages").toString();
 
     public List<Asset>getAllAssets() {
         List<Asset> assetList = assetRepository.findAll();
@@ -85,5 +94,24 @@ public class AssetService {
         AssetSpecification as = new AssetSpecification(search);
         List<Asset> assets =  assetRepository.findAll(as);
         return assets.stream().map(asset -> todto(asset)).collect(Collectors.toList());
+    }
+
+    @Override
+    public String getImageByName() {
+        return null;
+    }
+
+    @Override
+    public void saveImage(MultipartFile image) {
+        imageFolderHandeler.creatingAssetImagesFolder();
+
+
+        try{
+            System.out.println(image.getInputStream());
+            Files.copy(image.getInputStream(),Paths.get(assetFolderPath+File.separator+image.getOriginalFilename()));
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 }

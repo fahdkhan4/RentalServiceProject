@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -66,6 +67,23 @@ public class AssetController {
     @GetMapping("/asset/search")
     public ResponseEntity<List<AssetDto>> filterAsset(@RequestBody SearchCriteria search){
          return ResponseEntity.ok(assetService.search(search));
+    }
+
+    @PostMapping("/assetimage")
+    public ResponseEntity<String> uploadImage(@RequestParam("file")MultipartFile image){
+        try {
+            if(image.isEmpty()){
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+
+            assetService.saveImage(image);
+
+            return ResponseEntity.ok("Image Saved");
+        }
+        catch (Exception e){
+            System.out.println(e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
 }

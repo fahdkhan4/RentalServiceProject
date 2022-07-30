@@ -19,6 +19,7 @@ public class UserDto {
     @NotEmpty(message = "Name Should not be empty")
     private String name;
     private String number;
+    private String image;
     @Email(message = "Invalid Email")
     private String email;
     private String type;

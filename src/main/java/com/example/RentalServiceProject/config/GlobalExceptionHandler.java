@@ -1,6 +1,7 @@
 package com.example.RentalServiceProject.config;
 
 import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.sun.javafx.iio.ImageStorageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> userNotFoundException(ContentNotFoundException error){
         return new ResponseEntity<>(error.getMessage(),HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ImageStorageException.class)
+    public ResponseEntity<String> imageStorageExceoption(ImageStorageException error){
+        return new ResponseEntity<>(error.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
 
 
 }
