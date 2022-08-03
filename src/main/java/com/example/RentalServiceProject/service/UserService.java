@@ -11,9 +11,13 @@ import com.example.RentalServiceProject.repo.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -32,10 +36,11 @@ public class UserService implements ImageStorage {
     public final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
 
     public UserDto addingUser(UserDto userDto, MultipartFile image) {
-//                                                                   returning boolean
+//
             saveImage(image);
 //
             String userImagePath = "http://localhost:8080/api/image/userimages/"+image.getOriginalFilename();
+//
             userDto.setImage(userImagePath);
             return toDto(userRepository.save(dto(userDto)));
     }
@@ -96,9 +101,12 @@ public class UserService implements ImageStorage {
 
 
     @Override
-    public String getImageByName() {
+    public InputStream getImageByName(String imageName) throws FileNotFoundException {
 
-        return null;
+            String imagePath = imageFolderPath+File.separator+imageName;
+            InputStream inputStream = new FileInputStream(imagePath);
+            return inputStream;
+
     }
 
     @Override

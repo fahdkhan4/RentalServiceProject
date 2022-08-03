@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 @Component
 public class ImageFolderHandeler {
 
+//                                           Creating image Folder
     public void creatingImageFolder(){
         try{
          final String imageFolderPath = Paths.get("src/main/resources/static").toString();
@@ -18,24 +19,29 @@ public class ImageFolderHandeler {
             System.out.println("Error creating Image Folder "+e);
         }
     }
-
+//                                            Creating userimages folder
     public void creatingUserImagesFolder(){
         try{
-//            image folder will be created if not exist
+//                                            Image folder will be created if not exist
             creatingImageFolder();
 
             final String userImageFolderPath = Paths.get("src/main/resources/static/image").toString();
             File userImageFolder = new File(userImageFolderPath+"\\userimages");
-            userImageFolder.mkdir();
+            if(userImageFolder.mkdir()){
+                System.out.println("Folder Has Been Created");
+            }
+            else{
+                System.out.println("Folder Already Exist");
+            }
 
         }catch (Exception e){
             System.out.println("Error creating User images folder "+e);
         }
     }
-
+//                                          Creating assetimages Folder
     public void creatingAssetImagesFolder(){
         try{
-//            image folder will be created if not exist
+//                                          image folder will be created if not exist
             creatingImageFolder();
 
             final String assetImageFolderPath = Paths.get("src/main/resources/static/image").toString();

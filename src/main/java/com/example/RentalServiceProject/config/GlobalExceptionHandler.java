@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.io.FileNotFoundException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -22,8 +24,13 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ImageStorageException.class)
-    public ResponseEntity<String> imageStorageExceoption(ImageStorageException error){
+    public ResponseEntity<String> imageStorageException(ImageStorageException error){
         return new ResponseEntity<>(error.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(FileNotFoundException.class)
+    public ResponseEntity<String> fileNotFoundException(FileNotFoundException fileNotFoundException){
+        return new ResponseEntity<>(fileNotFoundException.getMessage(),HttpStatus.NOT_FOUND);
     }
 
 

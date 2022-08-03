@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -49,6 +50,7 @@ public class AssetService implements ImageStorage {
     }
 
     public AssetDto addAsset_InDb(AssetDto assetDto) {
+
         User getAssetUser = userService.getUsersbyStatus().stream().filter(el -> el.getId().equals(assetDto.getUser().getId())).findAny().get();
 
         assetDto.setUser(getAssetUser);
@@ -97,7 +99,7 @@ public class AssetService implements ImageStorage {
     }
 
     @Override
-    public String getImageByName() {
+    public InputStream getImageByName(String filename) {
         return null;
     }
 
@@ -105,9 +107,7 @@ public class AssetService implements ImageStorage {
     public void saveImage(MultipartFile image) {
         imageFolderHandeler.creatingAssetImagesFolder();
 
-
         try{
-            System.out.println(image.getInputStream());
             Files.copy(image.getInputStream(),Paths.get(assetFolderPath+File.separator+image.getOriginalFilename()));
 
         }catch (Exception e){
