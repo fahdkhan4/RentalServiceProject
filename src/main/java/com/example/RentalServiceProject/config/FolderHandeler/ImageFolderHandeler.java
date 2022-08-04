@@ -46,7 +46,12 @@ public class ImageFolderHandeler {
 
             final String assetImageFolderPath = Paths.get("src/main/resources/static/image").toString();
             File assetImageFolder = new File(assetImageFolderPath+"\\assetimages");
-            assetImageFolder.mkdir();
+            if(assetImageFolder.mkdir()){
+                System.out.println("Asset Images Folder is Created");
+            }
+            else{
+                System.out.println("Asset Imagea Folder is Already Exist");
+            }
 
         }catch (Exception e){
             System.out.println("Error creating Asset images Folder "+e);

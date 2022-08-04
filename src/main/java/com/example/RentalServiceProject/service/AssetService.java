@@ -2,11 +2,13 @@ package com.example.RentalServiceProject.service;
 
 import com.example.RentalServiceProject.config.FolderHandeler.ImageFolderHandeler;
 import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.AssetImages;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
+import com.example.RentalServiceProject.repo.AssetImageRepository;
 import com.example.RentalServiceProject.repo.AssetRepository;
 import com.example.RentalServiceProject.repo.specification.AssetSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -30,6 +34,8 @@ public class AssetService implements ImageStorage {
     UserService userService;
     @Autowired
     ImageFolderHandeler imageFolderHandeler;
+    @Autowired
+    AssetImageRepository assetImageRepository;
 
     public final String assetFolderPath = Paths.get("src/main/resources/static/image/assetimages").toString();
 
@@ -49,12 +55,26 @@ public class AssetService implements ImageStorage {
         throw new ContentNotFoundException("No Asset Found in Round ");
     }
 
-    public AssetDto addAsset_InDb(AssetDto assetDto) {
+    public AssetDto addAsset_InDb(AssetDto assetDto,MultipartFile image) {
 
         User getAssetUser = userService.getUsersbyStatus().stream().filter(el -> el.getId().equals(assetDto.getUser().getId())).findAny().get();
-
+//                                                                  Save Asset image
+        saveImage(image);
+//                                                                  setting path of image to store in Database
+        String assetImagePath  = "http://localhost:8080/api/image/assetimages/"+image.getOriginalFilename();
         assetDto.setUser(getAssetUser);
-        return todto(assetRepository.save(dto(assetDto)));
+//                                                                  Save Asset in Database
+        Asset assetDetails = assetRepository.save(dto(assetDto));
+//                                                                  Save AssetImage in Database
+        AssetImages assetImages = new AssetImages();
+        assetImages.setImage(assetImagePath);
+        assetImages.setAsset(assetDetails);
+        assetImageRepository.save(assetImages);
+
+        AssetDto assetDtoToSaveImageUrl = todto(assetDetails);
+        assetDtoToSaveImageUrl.setImage(assetImagePath);
+
+        return assetDtoToSaveImageUrl;
     }
 
 
@@ -99,8 +119,10 @@ public class AssetService implements ImageStorage {
     }
 
     @Override
-    public InputStream getImageByName(String filename) {
-        return null;
+    public InputStream getImageByName(String filename) throws FileNotFoundException {
+        String assetImagePath = assetFolderPath+File.separator+filename;
+        InputStream inputStream = new FileInputStream(assetImagePath);
+        return inputStream;
     }
 
     @Override

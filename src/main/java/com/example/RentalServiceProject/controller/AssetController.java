@@ -5,6 +5,7 @@ import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.service.AssetService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,16 +26,6 @@ public class AssetController {
     public ResponseEntity<List<Asset>> getAssetByStatus(){
         List<Asset> assets = assetService.getAssetByStatus();
         return ResponseEntity.ok(assets);
-    }
-
-    @PostMapping("/asset")
-    public ResponseEntity<AssetDto> addAsset(@RequestBody AssetDto assetDto){
-        try{
-            return ResponseEntity.ok(assetService.addAsset_InDb(assetDto));
-        }catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
     }
 
     @GetMapping("/asset/{id}")
@@ -69,20 +60,20 @@ public class AssetController {
          return ResponseEntity.ok(assetService.search(search));
     }
 
-    @PostMapping("/assetimage")
-    public ResponseEntity<String> uploadImage(@RequestParam("file")MultipartFile image){
+    @PostMapping("/asset")
+    public ResponseEntity<AssetDto>  addAsset(@RequestParam("image") MultipartFile image,@RequestParam("data") String assetDetails){
         try {
             if(image.isEmpty()){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
+             }
+            ObjectMapper mapper = new ObjectMapper();
+            AssetDto assetDto = mapper.readValue(assetDetails,AssetDto.class);
 
-            assetService.saveImage(image);
-
-            return ResponseEntity.ok("Image Saved");
+            return  ResponseEntity.ok(assetService.addAsset_InDb(assetDto,image));
         }
         catch (Exception e){
             System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
