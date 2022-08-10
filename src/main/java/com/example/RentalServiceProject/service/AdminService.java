@@ -1,7 +1,9 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.*;
 import com.example.RentalServiceProject.model.*;
+import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.repo.*;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class AdminService {
     private final AssetReviewRepository assetReviewRepository;
     private final UserRatingRepository userRatingRepository;
     private final RequestOfServiceRepository requestOfServiceRepository;
+    private final RolesRepository rolesRepository;
 //                                                                          Construction injection of Services
     private final UserService userService;
     private final AssetService assetService;
@@ -26,7 +29,7 @@ public class AdminService {
     private final UserRatingService userRatingAndReviewService;
     private final RequestOfServiceService requestOfServiceService;
 
-    public AdminService(UserRepository userRepository, AssetRepository assetRepository, AssetBookingRepository assetBookingRepository, AssetReviewRepository assetReviewRepository, UserRatingRepository userRatingRepository, RequestOfServiceRepository requestOfServiceRepository, UserService userService, AssetService assetService, AssetBookingService assetBookingService, AssetReviewService assetReviewService, UserRatingService userRatingAndReviewService, RequestOfServiceService requestOfServiceService) {
+    public AdminService(UserRepository userRepository, AssetRepository assetRepository, AssetBookingRepository assetBookingRepository, AssetReviewRepository assetReviewRepository, UserRatingRepository userRatingRepository, RequestOfServiceRepository requestOfServiceRepository, UserService userService, AssetService assetService, AssetBookingService assetBookingService, AssetReviewService assetReviewService, UserRatingService userRatingAndReviewService, RequestOfServiceService requestOfServiceService,RolesRepository rolesRepository) {
         this.userRepository = userRepository;
         this.assetRepository = assetRepository;
         this.assetBookingRepository = assetBookingRepository;
@@ -39,25 +42,45 @@ public class AdminService {
         this.assetReviewService = assetReviewService;
         this.userRatingAndReviewService = userRatingAndReviewService;
         this.requestOfServiceService = requestOfServiceService;
+        this.rolesRepository = rolesRepository;
     }
 
     public List<User> getAllUsers(){
         return userRepository.findAll();
     }
 
-    public UserDto updateUser_Status(Long id, UserDto userDto) {
+    public UserDto updateUser_StatusAndRole(Long id, UserDto userDto) {
         User updateUser = getAllUsers().stream().filter(el->el.getId().equals(id)).findAny().get();
-        if(updateUser != null){
+
+        if(updateUser != null && ( !userDto.getStatus().equals(InitialStatus.in_review) && !userDto.getRoles().isEmpty())){
+            updateUser.setStatus(userDto.getStatus());
+            updateUser.setRoles(userDto.getRoles());
+        }
+        else if (updateUser != null && !userDto.getRoles().isEmpty()){
+            updateUser.setRoles(userDto.getRoles());
+        }
+        else if (updateUser != null && !userDto.getStatus().equals(InitialStatus.in_review)){
             updateUser.setStatus(userDto.getStatus());
         }
+        else{
+            updateUser.setStatus(userDto.getStatus());
+        }
+
         return  userService.toDto(userRepository.save(updateUser));
     }
+//    status inreview and role
+//    status published and role
+//    all empty then status in-review
+//    only role not giving status
 
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
 
     public AssetDto updateAsset_Status(Long id, AssetDto assetDto) {
+//      problem : asset image giving null
+//      solution : make assetimageobject and call the data with id
+
         Asset asset = getAllAssets().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(asset != null){
             asset.setStatus(assetDto.getStatus());
@@ -113,6 +136,17 @@ public class AdminService {
         }
         return userRatingAndReviewService.todto(userRatingRepository.save(userRatingAndReview));
     }
+
+//                                                              Saving Roles in Database
+    public Roles addRolesInDb(Roles roles) {
+        if(roles.getName() == null){
+            throw new ContentNotFoundException("Roles Cannot be Empty !");
+        }
+        return rolesRepository.save(roles);
+    }
+
+//                                                              Assigning Roles to the Users
+
 
 
 }

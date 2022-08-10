@@ -36,16 +36,16 @@ class RentalServiceProjectApplicationTests {
 	@MockBean
 	private UserRepository userRepository;
 
-	@Test
-	public void getUserTestTest(){
-		List<User> userdetails = new ArrayList<>();
-		User user1 = new User(1l,"fahd","123","aa","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
-		User user2 = new User(2l,"ali","123","aa","alikhan@gmail.com","seller","111", InitialStatus.in_review);
-		userdetails.add(user1);
-		userdetails.add(user2);
-		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
-		assertEquals(2,userService.getUsersbyStatus().size());
-	}
+//	@Test
+//	public void getUserTestTest(){
+//		List<User> userdetails = new ArrayList<>();
+//		User user1 = new User(1l,"fahd","123","aa","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
+//		User user2 = new User(2l,"ali","123","aa","alikhan@gmail.com","seller","111", InitialStatus.in_review);
+//		userdetails.add(user1);
+//		userdetails.add(user2);
+//		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
+//		assertEquals(2,userService.getUsersbyStatus().size());
+//	}
 
 	@Test
 	public void getUsersTest(){

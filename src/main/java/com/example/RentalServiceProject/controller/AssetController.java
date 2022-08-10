@@ -4,6 +4,7 @@ import com.example.RentalServiceProject.config.exception.ContentNotFoundExceptio
 import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
 import com.example.RentalServiceProject.model.Asset;
+import com.example.RentalServiceProject.model.AssetImages;
 import com.example.RentalServiceProject.service.AssetService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,6 +74,16 @@ public class AssetController {
         }
         catch (Exception e){
             System.out.println(e);
+            return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
+
+
+    @PostMapping("/asset/assetimage/{id}")
+    public ResponseEntity<AssetImages> uploadAssetImageMapper(@PathVariable Long id, @RequestParam("image") MultipartFile image){
+        try{
+            return ResponseEntity.ok(assetService.uploadAssetImage(id,image));
+        }catch (Exception e){
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

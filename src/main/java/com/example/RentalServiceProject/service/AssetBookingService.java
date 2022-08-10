@@ -1,6 +1,8 @@
 package com.example.RentalServiceProject.service;
 
 import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.Asset;
+import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetBookingDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
@@ -18,6 +20,10 @@ public class AssetBookingService {
 
     @Autowired
     AssetBookingRepository assetBookingRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    AssetService assetService;
 
     public List<AssetBooking> getAllAssetBooking() {
         List<AssetBooking> assetBookings = assetBookingRepository.findAll();
@@ -35,8 +41,14 @@ public class AssetBookingService {
         throw new ContentNotFoundException("No AssetBookings Present in the record");
     }
 
-    public AssetBookingDto addAssetBooking_In_db(AssetBookingDto assetDto) {
-        return todto(assetBookingRepository.save(dto(assetDto)));
+    public AssetBookingDto addAssetBooking_In_db(AssetBookingDto assetBookingDto) {
+        User userdetails = userService.getUsersbyStatus().stream().filter(user -> assetBookingDto.getUser().getId().equals(user.getId())).findAny().get();
+        Asset assetdetails  = assetService.getAssetByStatus().stream().filter(asset -> assetBookingDto.getAsset().getId().equals(asset.getId())).findAny().get();
+//         put optional so we cannot get nullpointer error
+        assetBookingDto.setUser(userdetails);
+        assetBookingDto.setAsset(assetdetails);
+
+        return todto(assetBookingRepository.save(dto(assetBookingDto)));
     }
 
     public Optional<AssetBookingDto> updateAssetBooking_byId(Long id, AssetBookingDto assetDto) {

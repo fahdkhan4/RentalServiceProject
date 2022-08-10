@@ -2,10 +2,11 @@ package com.example.RentalServiceProject.model;
 
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import lombok.*;
+
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 @ToString
@@ -23,10 +24,17 @@ public class User {
     private String number;
     private String image;
     private String email;
-    private String type;
+    @ManyToMany
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id") ,
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Roles> roles = new HashSet<Roles>();
     private String cnic;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;
 
 
+    public void addRole(Roles role){
+        this.roles.add(role);
+    }
 }

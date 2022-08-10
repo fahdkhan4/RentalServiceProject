@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 
@@ -20,6 +21,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*")
 public class UserController {
 
     @Autowired
@@ -27,6 +29,7 @@ public class UserController {
 
 
     @GetMapping("/user")
+    @RolesAllowed({"ROLE_CUSTOMER","ROLE_ADMIN","ROLE_SERVICE_PROVIDER"})
     public ResponseEntity<List<User>> get_Users(){
         List<User> getUsers = userService.getUsersbyStatus();
         return ResponseEntity.ok(getUsers);

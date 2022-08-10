@@ -6,9 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
-
+@CrossOrigin
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
@@ -18,7 +19,13 @@ public class AdminController {
     AdminController(AdminService adminService1){
         this.adminService = adminService1;
     }
-    
+//                                                                                  Saving Roles of Users in Database
+    @PostMapping("/roles")
+    public ResponseEntity<Roles> addRoles(@RequestBody Roles roles){
+        return ResponseEntity.ok(adminService.addRolesInDb(roles));
+    }
+
+
     @GetMapping("/user")
     public ResponseEntity<List<User>> getALLUsers(){
         List<User> users = adminService.getAllUsers();
@@ -28,10 +35,11 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PatchMapping("/userstatus/{id}")
+    @PatchMapping("/user/{id}")
+    @RolesAllowed({"ROLE_ADMIN"})
     public ResponseEntity<UserDto> getUser_ForUpdate(@PathVariable Long id,@RequestBody UserDto userDto){
         try{
-            return ResponseEntity.ok(adminService.updateUser_Status(id,userDto));
+            return ResponseEntity.ok(adminService.updateUser_StatusAndRole(id,userDto));
         }
         catch (Exception e){
             System.out.println(e);

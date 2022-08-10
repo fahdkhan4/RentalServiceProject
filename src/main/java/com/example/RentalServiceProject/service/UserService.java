@@ -8,12 +8,11 @@ import com.example.RentalServiceProject.dto.UserDto;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.repo.UserRepository;
 import com.example.RentalServiceProject.repo.specification.UserSpecification;
+import com.sun.javafx.iio.ImageStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -33,10 +32,10 @@ public class UserService implements ImageStorage {
     ImageFolderHandeler imageFolderHandeler;
 
 
-    public final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
+    private final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
 
     public UserDto addingUser(UserDto userDto, MultipartFile image) {
-//
+//                                                                          Image Saved
             saveImage(image);
 //
             String userImagePath = "http://localhost:8080/api/image/userimages/"+image.getOriginalFilename();
@@ -73,12 +72,14 @@ public class UserService implements ImageStorage {
     public UserDto updateUserById(Long id, UserDto userDto) {
 
             User updateUser = getAllUsers().stream().filter(el -> el.getId().equals(id)).findAny().get();
+
             if (updateUser != null) {
                 updateUser.setName(userDto.getName());
                 updateUser.setEmail(userDto.getEmail());
                 updateUser.setCnic(userDto.getCnic());
                 updateUser.setNumber(userDto.getNumber());
-                updateUser.setType(userDto.getType());
+                updateUser.setRoles(userDto.getRoles());
+//                updateUser.setType(userDto.getType());
             }
 
          return toDto(userRepository.save(updateUser));
@@ -92,11 +93,11 @@ public class UserService implements ImageStorage {
 
     public User dto(UserDto dto){
         return User.builder().Id(dto.getId()).name(dto.getName()).image(dto.getImage()).cnic(dto.getCnic()).email(dto.getEmail())
-                .status(dto.getStatus()).number(dto.getNumber()).type(dto.getType()).build();
+                .status(dto.getStatus()).number(dto.getNumber()).roles(dto.getRoles()).build();
     }
     public UserDto toDto(User user){
         return UserDto.builder().Id(user.getId()).name(user.getName()).image(user.getImage()).cnic(user.getCnic()).email(user.getEmail())
-                .status(user.getStatus()).number(user.getNumber()).type(user.getType()).build();
+                .status(user.getStatus()).number(user.getNumber()).roles(user.getRoles()).build();
     }
 
 

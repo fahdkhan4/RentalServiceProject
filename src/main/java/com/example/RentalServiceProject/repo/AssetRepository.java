@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface AssetRepository extends JpaRepository<Asset,Long> , JpaSpecificationExecutor<Asset>{
 
-    public List<Asset> findByStatus(InitialStatus status);
+    List<Asset> findByStatus(InitialStatus status);
 
 }

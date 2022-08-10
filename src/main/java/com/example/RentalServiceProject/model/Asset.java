@@ -22,6 +22,7 @@ public class Asset {
     private Long Id;
     private String name;
     private Double pricePerDay;
+    private String image;
     private String location;
     private String type;
     @Enumerated(EnumType.STRING)
