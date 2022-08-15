@@ -9,6 +9,19 @@
 			"name": "Users",
 			"item": [
 				{
+					"name": "FilterUser",
+					"item": [
+						{
+							"name": "searchUser",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
+				},
+				{
 					"name": "PostUsers",
 					"request": {
 						"method": "POST",
@@ -103,6 +116,47 @@
 								"api",
 								"user",
 								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Real post uSER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/HP/Desktop/Apex workspace.jpg"
+								},
+								{
+									"key": "data",
+									"value": "{\n    \n}",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"user"
 							]
 						}
 					},
@@ -212,6 +266,42 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/C:/Users/HP/Desktop/carpic1.png.jfif"
+								},
+								{
+									"key": "data",
+									"value": "{\n        \"name\": \"Rent-Cars2\",\n        \"pricePerDay\": 1000.0,\n        \"location\": \"Gulshan\",\n        \"type\": \"renting\",\n        \"user\": {\n            \"id\": 2\n        }\n    }",
+									"contentType": "application/json",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/asset",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"asset"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -248,7 +338,7 @@
 					"response": []
 				},
 				{
-					"name": "get bookings",
+					"name": "filter booking",
 					"request": {
 						"method": "GET",
 						"header": []
@@ -302,6 +392,14 @@
 								"assetbooking"
 							]
 						}
+					},
+					"response": []
+				},
+				{
+					"name": "get assetbooking",
+					"request": {
+						"method": "GET",
+						"header": []
 					},
 					"response": []
 				}
@@ -813,8 +911,29 @@
 							"response": []
 						}
 					]
+				},
+				{
+					"name": "AddRoles",
+					"item": [
+						{
+							"name": "New Request",
+							"request": {
+								"method": "GET",
+								"header": []
+							},
+							"response": []
+						}
+					]
 				}
 			]
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
 		}
 	]
 }

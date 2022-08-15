@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.*;
 import com.example.RentalServiceProject.model.*;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
@@ -49,37 +49,21 @@ public class AdminService {
         return userRepository.findAll();
     }
 
-    public UserDto updateUser_StatusAndRole(Long id, UserDto userDto) {
+    public UserDto updateUser_Status(Long id, UserDto userDto) {
         User updateUser = getAllUsers().stream().filter(el->el.getId().equals(id)).findAny().get();
 
-        if(updateUser != null && ( !userDto.getStatus().equals(InitialStatus.in_review) && !userDto.getRoles().isEmpty())){
-            updateUser.setStatus(userDto.getStatus());
-            updateUser.setRoles(userDto.getRoles());
-        }
-        else if (updateUser != null && !userDto.getRoles().isEmpty()){
-            updateUser.setRoles(userDto.getRoles());
-        }
-        else if (updateUser != null && !userDto.getStatus().equals(InitialStatus.in_review)){
+        if(updateUser != null){
             updateUser.setStatus(userDto.getStatus());
         }
-        else{
-            updateUser.setStatus(userDto.getStatus());
-        }
-
         return  userService.toDto(userRepository.save(updateUser));
     }
-//    status inreview and role
-//    status published and role
-//    all empty then status in-review
-//    only role not giving status
+
 
     public List<Asset> getAllAssets() {
         return assetRepository.findAll();
     }
 
     public AssetDto updateAsset_Status(Long id, AssetDto assetDto) {
-//      problem : asset image giving null
-//      solution : make assetimageobject and call the data with id
 
         Asset asset = getAllAssets().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(asset != null){
@@ -145,7 +129,6 @@ public class AdminService {
         return rolesRepository.save(roles);
     }
 
-//                                                              Assigning Roles to the Users
 
 
 

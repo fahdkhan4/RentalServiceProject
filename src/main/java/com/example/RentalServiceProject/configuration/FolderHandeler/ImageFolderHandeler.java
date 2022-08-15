@@ -1,4 +1,4 @@
-package com.example.RentalServiceProject.config.FolderHandeler;
+package com.example.RentalServiceProject.configuration.FolderHandeler;
 
 import org.springframework.stereotype.Component;
 
@@ -38,10 +38,10 @@ public class ImageFolderHandeler {
             System.out.println("Error creating User images folder "+e);
         }
     }
-//                                          Creating assetimages Folder
+//                                                          Creating assetimages Folder
     public void creatingAssetImagesFolder(){
         try{
-//                                          image folder will be created if not exist
+//                                                          image folder will be created if not exist
             creatingImageFolder();
 
             final String assetImageFolderPath = Paths.get("src/main/resources/static/image").toString();

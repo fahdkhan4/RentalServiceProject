@@ -1,6 +1,6 @@
-package com.example.RentalServiceProject.config;
+package com.example.RentalServiceProject.configuration;
 
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
 import com.sun.javafx.iio.ImageStorageException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

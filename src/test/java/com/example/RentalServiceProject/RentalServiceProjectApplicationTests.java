@@ -1,12 +1,6 @@
 package com.example.RentalServiceProject;
 
 
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
-import com.example.RentalServiceProject.model.Asset;
-import com.example.RentalServiceProject.model.AssetReview;
-import com.example.RentalServiceProject.model.User;
-import com.example.RentalServiceProject.model.enums.InitialStatus;
-import com.example.RentalServiceProject.repo.AssetRepository;
 import com.example.RentalServiceProject.repo.UserRepository;
 
 import com.example.RentalServiceProject.service.UserService;
@@ -16,16 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 class RentalServiceProjectApplicationTests {

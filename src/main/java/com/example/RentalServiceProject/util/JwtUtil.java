@@ -1,8 +1,5 @@
-package com.example.RentalServiceProject.helper;
+package com.example.RentalServiceProject.util;
 
-import com.example.RentalServiceProject.dto.CustomUserDetail;
-import com.example.RentalServiceProject.model.User;
-import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.repo.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,8 +16,6 @@ import java.util.function.Function;
 @Service
 public class JwtUtil{
 
-    @Autowired
-    UserRepository userRepository;
 
     private String SECRET_KEY = "secret";
 

@@ -1,4 +1,6 @@
 package com.example.RentalServiceProject.service;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.UserRatingDto;
 import com.example.RentalServiceProject.model.UserRatingAndReview;
@@ -13,8 +15,16 @@ public class UserRatingService {
 
     @Autowired
     UserRatingRepository userRatingRepository;
+    @Autowired
+    UserService userService;
 
+//                                                                                          Adding user Rating and reviews in database
     public UserRatingDto addingUserRatingAndReviews(UserRatingDto userRatingDto) {
+        User user = userService.getUsersbyStatus().stream().filter(user1 -> user1.getId().equals(userRatingDto.getUser().getId())).findAny().get();
+        User serviceProvider = userService.getUsersbyStatus().stream().filter(user1 -> user1.getId().equals(userRatingDto.getProvider().getId())).findAny().get();
+        userRatingDto.setUser(user);
+        userRatingDto.setProvider(serviceProvider);
+
         return todto(userRatingRepository.save(dto(userRatingDto)));
     }
 
@@ -23,11 +33,19 @@ public class UserRatingService {
     }
 
     public List<UserRatingAndReview> getUserRatingAndReviewsByStatus() {
-        return userRatingRepository.findByStatus(InitialStatus.Published);
+        List<UserRatingAndReview> userRatingAndReviews = userRatingRepository.findByStatus(InitialStatus.Published);
+        if(!userRatingAndReviews.isEmpty()){
+            return userRatingAndReviews;
+        }
+       throw new ContentNotFoundException("No User Rating And Reviews exist");
     }
 
     public Optional<UserRatingAndReview> getUserRatingAndReviewsById(Long id) {
-        return userRatingRepository.findById(id);
+        Optional<UserRatingAndReview> userRatingAndReview = userRatingRepository.findById(id);
+        if(userRatingAndReview.isPresent()){
+            return userRatingAndReview;
+        }
+        throw new ContentNotFoundException("No User Review And Rating exist with id "+id);
     }
 
     public void deleteUserRatingAndReviews(Long id) {
@@ -37,10 +55,10 @@ public class UserRatingService {
     public Optional<UserRatingDto> updateUserRatingAndReviewsById(Long id, UserRatingDto userRatingDto) {
         UserRatingAndReview userRating = getAllUserRatingAndReviews().stream().filter(el->el.getUserRatingAndReviewId().equals(id)).findAny().get();
         if(userRating != null){
-            userRating.setUser(userRatingDto.getUser());
+//            userRating.setUser(userRatingDto.getUser());
             userRating.setRating(userRatingDto.getRating());
             userRating.setReview(userRatingDto.getReview());
-            userRating.setProvider(userRatingDto.getProvider());
+//            userRating.setProvider(userRatingDto.getProvider());
         }
         return  Optional.of(todto(userRatingRepository.save(userRating)));
     }

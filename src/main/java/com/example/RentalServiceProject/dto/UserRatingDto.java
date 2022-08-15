@@ -15,7 +15,6 @@ import lombok.*;
 
 public class UserRatingDto {
 
-
     private Long userRatingAndReviewId;
     private User user;
     private User provider;

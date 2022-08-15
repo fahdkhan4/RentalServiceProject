@@ -1,7 +1,7 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.config.FolderHandeler.ImageFolderHandeler;
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.configuration.FolderHandeler.ImageFolderHandeler;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.model.AssetImages;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
@@ -21,7 +21,6 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,8 +36,10 @@ public class AssetService implements ImageStorage {
     ImageFolderHandeler imageFolderHandeler;
     @Autowired
     AssetImageRepository assetImageRepository;
-
+//                                                                                      Location Of AssetImages Folder
     public final String assetFolderPath = Paths.get("src/main/resources/static/image/assetimages").toString();
+//                                                                                      Path of Asset Image to store in DB
+    public final String assetImageFileLocation = "http://localhost:8081/api/image/assetimages/";
 
     public List<Asset> getAllAssets() {
         List<Asset> assetList = assetRepository.findAll();
@@ -63,10 +64,10 @@ public class AssetService implements ImageStorage {
 //                                                                  Save Asset image
         saveImage(image);
 //                                                                  setting path of image to store in Database
-        String assetImagePath  = "http://localhost:8080/api/image/assetimages/"+image.getOriginalFilename();
+        String assetImagePath  = assetImageFileLocation+image.getOriginalFilename();
         assetDto.setImage(assetImagePath);
 //                                                                  Save Asset in Database
-        return todto( assetRepository.save(dto(assetDto)));
+        return todto(assetRepository.save(dto(assetDto)));
     }
 
 
@@ -89,34 +90,24 @@ public class AssetService implements ImageStorage {
             update_asset.setLocation(assetDto.getLocation());
             update_asset.setPricePerDay(assetDto.getPricePerDay());
             update_asset.setType(assetDto.getType());
-            update_asset.setUser(assetDto.getUser());
         }
         return  todto(assetRepository.save(update_asset));
     }
 
-    public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).location(assetDto.getLocation())
-                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
-    }
-
-    public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getLocation())
-                .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
-    }
 
     public List<AssetDto> search(SearchCriteria search) {
         AssetSpecification as = new AssetSpecification(search);
         List<Asset> assets =  assetRepository.findAll(as);
         return assets.stream().map(asset -> todto(asset)).collect(Collectors.toList());
     }
-
+    //                                                                Get asset image from the disk
     @Override
     public InputStream getImageByName(String filename) throws FileNotFoundException {
         String assetImagePath = assetFolderPath+File.separator+filename;
         InputStream inputStream = new FileInputStream(assetImagePath);
         return inputStream;
     }
-
+//                                                                    Save Asset Image to the disk
     @Override
     public void saveImage(MultipartFile image) {
         imageFolderHandeler.creatingAssetImagesFolder();
@@ -128,18 +119,28 @@ public class AssetService implements ImageStorage {
             System.out.println(e);
         }
     }
-
+//                                                                          Add Multiple Asset images in AssetImages Database
     public AssetImages uploadAssetImage(Long id,MultipartFile image) {
         Asset asset = getAssetByStatus().stream().filter(asset1 -> asset1.getId().equals(id)).findAny().get();
-//                                      Image will be Saved in Disk
+//                                                                          Image will be Saved in Disk
         saveImage(image);
-//                                       Creating path
-        String assetImagePath  = "http://localhost:8080/api/image/assetimages/"+image.getOriginalFilename();
-//                                       Creating AssetImage Object to save assetimage in database
+//                                                                          Creating path of assetImage to store in DB
+        String assetImagePath  = assetImageFileLocation+image.getOriginalFilename();
+//                                                                          Creating AssetImage Object to save assetimage in database
         AssetImages assetImages = new AssetImages();
         assetImages.setImage(assetImagePath);
         assetImages.setAsset(asset);
 
         return  assetImageRepository.save(assetImages);
+    }
+
+    public Asset dto(AssetDto assetDto){
+        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).location(assetDto.getLocation())
+                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
+    }
+
+    public AssetDto todto(Asset asset){
+        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getLocation())
+                .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
     }
 }

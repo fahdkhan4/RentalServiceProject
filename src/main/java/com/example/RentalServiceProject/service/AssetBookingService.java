@@ -1,6 +1,6 @@
 package com.example.RentalServiceProject.service;
 
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
@@ -44,7 +44,7 @@ public class AssetBookingService {
     public AssetBookingDto addAssetBooking_In_db(AssetBookingDto assetBookingDto) {
         User userdetails = userService.getUsersbyStatus().stream().filter(user -> assetBookingDto.getUser().getId().equals(user.getId())).findAny().get();
         Asset assetdetails  = assetService.getAssetByStatus().stream().filter(asset -> assetBookingDto.getAsset().getId().equals(asset.getId())).findAny().get();
-//         put optional so we cannot get nullpointer error
+
         assetBookingDto.setUser(userdetails);
         assetBookingDto.setAsset(assetdetails);
 
@@ -54,8 +54,8 @@ public class AssetBookingService {
     public Optional<AssetBookingDto> updateAssetBooking_byId(Long id, AssetBookingDto assetDto) {
         AssetBooking updateAssetBooking = getAllAssetBooking().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(updateAssetBooking != null){
-            updateAssetBooking.setUser(assetDto.getUser());
-            updateAssetBooking.setAsset(assetDto.getAsset());
+//            updateAssetBooking.setUser(assetDto.getUser());
+//            updateAssetBooking.setAsset(assetDto.getAsset());
             updateAssetBooking.setStartDate(assetDto.getStartDate());
             updateAssetBooking.setEndDate(assetDto.getEndDate());
             updateAssetBooking.setPrice(assetDto.getPrice());

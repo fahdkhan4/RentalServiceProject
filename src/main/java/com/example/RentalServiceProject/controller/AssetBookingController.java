@@ -1,15 +1,14 @@
 package com.example.RentalServiceProject.controller;
 
-import com.example.RentalServiceProject.config.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
 import com.example.RentalServiceProject.dto.AssetBookingDto;
-import com.example.RentalServiceProject.dto.AssetDto;
 import com.example.RentalServiceProject.dto.SearchCriteria;
-import com.example.RentalServiceProject.model.Asset;
 import com.example.RentalServiceProject.model.AssetBooking;
 import com.example.RentalServiceProject.service.AssetBookingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,12 +22,14 @@ public class AssetBookingController {
     AssetBookingService assetBookingService;
 
     @GetMapping("/assetbooking")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER') or hasRole('ADMIN')")
     public ResponseEntity<List<AssetBooking>> getAssetbookingByStatus(){
         List<AssetBooking> assetbooking = assetBookingService.getAssetBookingByStatus();
         return ResponseEntity.ok(assetbooking);
     }
-
+//                                                                          Add Asset Booking
     @PostMapping("/assetbooking")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<AssetBookingDto> addAssetbooking(@RequestBody AssetBookingDto assetbookingDto){
         try{
             return ResponseEntity.ok(assetBookingService.addAssetBooking_In_db(assetbookingDto));
@@ -38,14 +39,16 @@ public class AssetBookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+//                                                                          Get Asset Booking With Id
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER') or hasRole('ADMIN')")
     @GetMapping("/assetbooking/{id}")
     public ResponseEntity<Optional<AssetBooking>> getAssetbooking_By_Id(@PathVariable Long id){
         Optional<AssetBooking> asset = assetBookingService.getAssetBooking_ById(id);
         return ResponseEntity.ok(asset);
     }
-
+//                                                                              Update Asset Booking
     @PutMapping("/assetbooking/{id}")
+    @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<Optional<AssetBookingDto>> updateAssetbooking_By_Id(@PathVariable Long id,@RequestBody AssetBookingDto assetDto){
         try{
             return ResponseEntity.ok(assetBookingService.updateAssetBooking_byId(id,assetDto));
@@ -54,7 +57,8 @@ public class AssetBookingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
-
+//                                                                              Delete Asset Booking
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER')")
     @DeleteMapping("/assetbooking/{id}")
     public ResponseEntity<Void> deleteAssetbooking_By_Id(@PathVariable Long id){
         try{
@@ -67,6 +71,7 @@ public class AssetBookingController {
     }
 
     @GetMapping("/assetbooking/search")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER') or hasRole('ADMIN')")
     public ResponseEntity<List<AssetBookingDto>>  filteredAssetBooking(@RequestBody SearchCriteria searchCriteria){
         List<AssetBookingDto> assetBookingDtos = assetBookingService.getFilteredAssetBooking(searchCriteria);
         if(!assetBookingDtos.isEmpty()){

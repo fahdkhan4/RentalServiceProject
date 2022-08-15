@@ -1,4 +1,4 @@
-package com.example.RentalServiceProject.config.exception;
+package com.example.RentalServiceProject.configuration.exception;
 
 public class ContentNotFoundException extends RuntimeException{
 

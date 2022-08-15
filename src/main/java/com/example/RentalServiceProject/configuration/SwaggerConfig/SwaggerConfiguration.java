@@ -1,4 +1,4 @@
-package com.example.RentalServiceProject.config.SwaggerConfig;
+package com.example.RentalServiceProject.configuration.SwaggerConfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

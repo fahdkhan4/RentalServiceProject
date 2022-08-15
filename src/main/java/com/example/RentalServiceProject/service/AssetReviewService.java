@@ -1,9 +1,13 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.Asset;
+import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.AssetReviewDto;
 import com.example.RentalServiceProject.model.AssetReview;
 import com.example.RentalServiceProject.repo.AssetReviewRepository;
+import com.example.RentalServiceProject.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +19,10 @@ public class AssetReviewService {
 
     @Autowired
     AssetReviewRepository assetReviewRepository;
+    @Autowired
+    UserService userService;
+    @Autowired
+    AssetService assetService;
 
 
     public List<AssetReview> getAllAssetReview() {
@@ -22,10 +30,18 @@ public class AssetReviewService {
     }
 
     public List<AssetReview> getAssetReviewByStatus(){
-        return  assetReviewRepository.findByStatus(InitialStatus.Published);
+        List<AssetReview> assetReviews = assetReviewRepository.findByStatus(InitialStatus.Published);
+        if(!assetReviews.isEmpty()){
+            return assetReviews;
+        }
+        throw new ContentNotFoundException("No Asset Review Found in Record");
     }
 
     public AssetReviewDto addAssetReview_In_db(AssetReviewDto assetbookingDto) {
+        User user = userService.getUsersbyStatus().stream().filter(user1 -> user1.getId().equals(assetbookingDto.getUser().getId())).findAny().get();
+        Asset asset = assetService.getAssetByStatus().stream().filter(asset1 -> asset1.getId().equals(assetbookingDto.getAsset().getId())).findAny().get();
+        assetbookingDto.setUser(user);
+        assetbookingDto.setAsset(asset);
         return todto(assetReviewRepository.save(dto(assetbookingDto)));
     }
 
@@ -36,9 +52,7 @@ public class AssetReviewService {
     public Optional<AssetReviewDto> updateAssetReview_byId(Long id, AssetReviewDto assetDto) {
         AssetReview assetReview = getAllAssetReview().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(assetReview != null){
-            assetReview.setAsset(assetDto.getAsset());
             assetReview.setReview(assetDto.getReview());
-            assetReview.setUser(assetDto.getUser());
             assetReview.setRating(assetDto.getRating());
         }
         return Optional.of(todto(assetReviewRepository.save(assetReview)));

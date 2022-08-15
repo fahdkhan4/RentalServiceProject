@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 public class CustomUserDetail implements UserDetails {
 
@@ -23,15 +22,13 @@ public class CustomUserDetail implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
-        for (Roles role: user.getRoles()){
-            authorityList.add(new SimpleGrantedAuthority(role.getName()));
-        }
+        user.getRoles().stream().forEach(roles -> authorityList.add(new SimpleGrantedAuthority(roles.getName())));
         return authorityList;
     }
 
     @Override
     public String getPassword() {
-        return "123";
+        return user.getPassword();
     }
 
     @Override

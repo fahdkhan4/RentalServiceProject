@@ -2,7 +2,7 @@ package com.example.RentalServiceProject.controller;
 
 import com.example.RentalServiceProject.dto.AuthenticationResponse;
 import com.example.RentalServiceProject.dto.LoginCredentials;
-import com.example.RentalServiceProject.helper.JwtUtil;
+import com.example.RentalServiceProject.util.JwtUtil;
 import com.example.RentalServiceProject.service.CustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

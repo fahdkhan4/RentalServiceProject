@@ -1,5 +1,7 @@
 package com.example.RentalServiceProject.service;
 
+import com.example.RentalServiceProject.configuration.exception.ContentNotFoundException;
+import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.model.enums.InitialStatus;
 import com.example.RentalServiceProject.dto.RequestOfServiceDto;
 import com.example.RentalServiceProject.model.RequestOfService;
@@ -15,6 +17,8 @@ public class RequestOfServiceService {
 
     @Autowired
     RequestOfServiceRepository serviceRepository;
+    @Autowired
+    UserService userService;
 
 
     public List<RequestOfService> getAllRequestOfService() {
@@ -22,29 +26,39 @@ public class RequestOfServiceService {
     }
 
     public List<RequestOfService> getRequestOfServiceByStatus() {
-        return serviceRepository.findByStatus(InitialStatus.Published);
+        List<RequestOfService> requestOfServices = serviceRepository.findByStatus(InitialStatus.Published);
+        if(!requestOfServices.isEmpty()){
+            return requestOfServices;
+        }
+        throw  new ContentNotFoundException("No Request exist in the Record");
     }
 
     public RequestOfServiceDto addRequestOfService_In_db(RequestOfServiceDto requestOfServiceDto) {
+        User user = userService.getUsersbyStatus().stream().filter(user1 -> user1.getId().equals(requestOfServiceDto.getUser().getId())).findAny().get();
+        requestOfServiceDto.setUser(user);
         return todto(serviceRepository.save(dto(requestOfServiceDto)));
     }
 
     public Optional<RequestOfService> getRequestOfService_ById(Long id) {
-        return serviceRepository.findById(id);
+        Optional<RequestOfService> requestOfService = serviceRepository.findById(id);
+        if(requestOfService.isPresent()){
+            return requestOfService;
+        }
+        throw new ContentNotFoundException("No request Found having id "+id);
     }
 
     public void deleteRequestOfService_byId(Long id) {
         serviceRepository.deleteById(id);
     }
 
-    public Optional<RequestOfServiceDto> updateRequestOfService_byId(Long id, RequestOfServiceDto assetDto) {
+    public RequestOfServiceDto updateRequestOfService_byId(Long id, RequestOfServiceDto assetDto) {
         RequestOfService requestOfService = getAllRequestOfService().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(requestOfService != null){
             requestOfService.setDetails(assetDto.getDetails());
             requestOfService.setType(assetDto.getType());
-            requestOfService.setUser(assetDto.getUser());
+//            requestOfService.setUser(assetDto.getUser());
         }
-        return Optional.of(todto(serviceRepository.save(requestOfService)));
+        return todto(serviceRepository.save(requestOfService));
     }
 
     public RequestOfService dto(RequestOfServiceDto requestOfServiceDto){

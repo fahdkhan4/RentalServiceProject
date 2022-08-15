@@ -24,6 +24,7 @@ public class User {
     private String number;
     private String image;
     private String email;
+    private String password;
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id") ,
@@ -31,10 +32,10 @@ public class User {
     private Set<Roles> roles = new HashSet<Roles>();
     private String cnic;
     @Enumerated(EnumType.STRING)
-    private InitialStatus status = InitialStatus.in_review;
+    private InitialStatus status = InitialStatus.Published;
 
-
-    public void addRole(Roles role){
-        this.roles.add(role);
-    }
+//
+//    public void addRole(Roles role){
+//        this.roles.add(role);
+//    }
 }
