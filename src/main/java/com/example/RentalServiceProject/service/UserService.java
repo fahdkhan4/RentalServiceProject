@@ -10,15 +10,13 @@ import com.example.RentalServiceProject.model.User;
 import com.example.RentalServiceProject.repo.RolesRepository;
 import com.example.RentalServiceProject.repo.UserRepository;
 import com.example.RentalServiceProject.repo.specification.UserSpecification;
+import com.sun.javafx.iio.ImageStorageException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashSet;
@@ -133,6 +131,7 @@ public class UserService implements ImageStorage {
             catch (Exception e){
                 System.out.println("User Image Not Saved"+e);
             }
+
     }
 
 }
