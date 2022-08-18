@@ -31,10 +31,16 @@ public class UserController {
         return ResponseEntity.ok(getUsers);
     }
 //                                                                          get user by id
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Optional<User>> get_Users_by_Id(@PathVariable Long id){
-        Optional<User> getbyid = userService.getUserById(id);
-        return ResponseEntity.ok(getbyid);
+//    @GetMapping("/user/{id}")
+//    public ResponseEntity<Optional<User>> get_Users_by_Id(@PathVariable Long id){
+//        Optional<User> getbyid = userService.getUserById(id);
+//        return ResponseEntity.ok(getbyid);
+//    }
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<Optional<User>> get_Users_by_Email(@PathVariable String email){
+        Optional<User> getbyEmail = userService.getUserByEmail(email);
+        return ResponseEntity.ok(getbyEmail);
     }
 //                                                                         Admin can Delete user only
     @DeleteMapping("/user/{id}")
@@ -71,7 +77,7 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<UserDto> SignUp_addingUser(@RequestParam("file") MultipartFile image,@RequestParam("data") String userdata,@RequestParam("isServiceProvider") boolean isServiceProvider){
+    public ResponseEntity<UserDto> SignUp_addingUser(@RequestParam("file") MultipartFile image,@RequestParam("data") String userdata){
         try{
             if(image.isEmpty()){
 //                                                                         throw image error if empty
@@ -81,7 +87,7 @@ public class UserController {
             ObjectMapper mapper = new ObjectMapper();
             UserDto userDto = mapper.readValue(userdata,UserDto.class);
 //                                                                     Adding user and file in db
-            return ResponseEntity.ok(userService.saveUserInDb(userDto,image,isServiceProvider));
+            return ResponseEntity.ok(userService.saveUserInDb(userDto,image));
         }
         catch (Exception e){
             System.out.println(e);

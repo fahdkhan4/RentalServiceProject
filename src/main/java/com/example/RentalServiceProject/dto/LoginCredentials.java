@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoginCredentials {
 
-    private String username;
+    private String email;
     private String password;
 
 }

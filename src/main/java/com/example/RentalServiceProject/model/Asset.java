@@ -23,7 +23,7 @@ public class Asset {
     private String name;
     private Double pricePerDay;
     private String image;
-    private String location;
+    private String address;
     private String type;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;

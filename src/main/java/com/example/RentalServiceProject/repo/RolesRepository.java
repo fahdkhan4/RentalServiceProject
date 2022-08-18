@@ -8,5 +8,5 @@ import java.util.HashSet;
 
 @Repository
 public interface RolesRepository extends JpaRepository<Roles,Long> {
-    HashSet<Roles> findByName(String name);
+    Roles findByName(String name);
 }

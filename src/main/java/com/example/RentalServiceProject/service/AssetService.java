@@ -87,7 +87,7 @@ public class AssetService implements ImageStorage {
         Asset update_asset = getAllAssets().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(update_asset != null){
             update_asset.setName(assetDto.getName());
-            update_asset.setLocation(assetDto.getLocation());
+            update_asset.setAddress(assetDto.getAddress());
             update_asset.setPricePerDay(assetDto.getPricePerDay());
             update_asset.setType(assetDto.getType());
         }
@@ -135,12 +135,12 @@ public class AssetService implements ImageStorage {
     }
 
     public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).location(assetDto.getLocation())
+        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).address(assetDto.getAddress())
                 .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
     }
 
     public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getLocation())
+        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).address(asset.getAddress())
                 .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
     }
 }

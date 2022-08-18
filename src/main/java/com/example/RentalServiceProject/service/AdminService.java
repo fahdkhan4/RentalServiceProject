@@ -121,13 +121,7 @@ public class AdminService {
         return userRatingAndReviewService.todto(userRatingRepository.save(userRatingAndReview));
     }
 
-//                                                              Saving Roles in Database
-    public Roles addRolesInDb(Roles roles) {
-        if(roles.getName() == null){
-            throw new ContentNotFoundException("Roles Cannot be Empty !");
-        }
-        return rolesRepository.save(roles);
-    }
+
 
 
 
