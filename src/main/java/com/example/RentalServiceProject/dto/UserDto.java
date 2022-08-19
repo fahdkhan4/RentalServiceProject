@@ -23,10 +23,12 @@ public class UserDto {
     private String name;
     private String number;
     private String image;
+    private String gender;
     private String password;
     @Email(message = "Invalid Email")
     private String email;
     private String cnic;
+    private String type;
     private Set<Roles> roles = new HashSet<Roles>();
     private InitialStatus status = InitialStatus.in_review;
 

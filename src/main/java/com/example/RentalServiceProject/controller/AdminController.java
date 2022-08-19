@@ -22,11 +22,11 @@ public class AdminController {
         this.adminService = adminService1;
     }
 //                                                                                  Saving Roles of Users in Database
-    @PostMapping("/roles")
-    @RolesAllowed("ROLE_ADMIN")
-    public ResponseEntity<Roles> addRoles(@RequestBody Roles roles){
-        return ResponseEntity.ok(adminService.addRolesInDb(roles));
-    }
+//    @PostMapping("/roles")
+//    @RolesAllowed("ROLE_ADMIN")
+//    public ResponseEntity<Roles> addRoles(@RequestBody Roles roles){
+//        return ResponseEntity.ok(adminService.addRolesInDb(roles));
+//    }
 //                                                                              ///// Admin User Operations
     @GetMapping("/user")
     @PreAuthorize("hasRole('ROLE_ADMIN')")

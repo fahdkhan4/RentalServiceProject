@@ -33,6 +33,13 @@ public class AssetController {
         return ResponseEntity.ok(assets);
     }
 //                                                                                      get asset by id
+    @GetMapping("/asset/cities")
+    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
+    public ResponseEntity<List<String>> getAssetCities(){
+        List<String> cities = assetService.getAssetCities();
+        return  ResponseEntity.ok(cities);
+    }
+
     @GetMapping("/asset/{id}")
     @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
     public ResponseEntity<Optional<Asset>> getAsset_By_Id(@PathVariable Long id){

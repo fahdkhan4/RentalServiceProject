@@ -22,6 +22,7 @@ public class User {
     private Long Id;
     private String name;
     private String number;
+    private String gender;
     private String image;
     private String email;
     private String password;

@@ -22,6 +22,7 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,7 +41,8 @@ public class UserService implements ImageStorage {
     private final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
     private final String userImageLocation =  "http://localhost:8080/api/image/userimages/";
 
-    public UserDto saveUserInDb(UserDto userDto, MultipartFile image,boolean isServiceProvider) {
+    public UserDto saveUserInDb(UserDto userDto, MultipartFile image) {
+            Set<Roles> roles = new HashSet<>();
 //                                                                          Image Saved
             saveImage(image);
 //                                                                          Setting image path to save in database
@@ -49,13 +51,17 @@ public class UserService implements ImageStorage {
 //                                                                          Encrypting password
             userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
 //                                                                          Assigning Role and Status to user
-            if(isServiceProvider){
+            if(userDto.getType().equalsIgnoreCase("SERVICE_PROVIDER")){
+
                 userDto.setStatus(InitialStatus.in_review);
-                userDto.setRoles(rolesRepository.findByName("ROLE_SERVICE_PROVIDER"));
+                roles.add(rolesRepository.findByName("ROLE_SERVICE_PROVIDER"));
+                roles.add(rolesRepository.findByName("ROLE_CUSTOMER"));
+                userDto.setRoles(roles);
             }
             else{
                 userDto.setStatus(InitialStatus.Published);
-                userDto.setRoles(rolesRepository.findByName("ROLE_CUSTOMER"));
+                roles.add(rolesRepository.findByName("ROLE_CUSTOMER"));
+                userDto.setRoles(roles);
             }
             return toDto(userRepository.save(dto(userDto)));
     }
