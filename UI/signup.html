@@ -53,11 +53,11 @@
 </div>
 <div class="single-input mt-4">
 <label class="label-title mb-3"> User Name </label>
-<input class="form--control" type="text" placeholder="Type User Name">
+<input class="form--control" type="text" placeholder="Type User Name" id="username">
 </div>
 <div class="single-input mt-4">
 <label class="label-title mb-3"> Email Address </label>
-<input class="form--control" type="text" name="email" placeholder="Type Email">
+<input class="form--control" type="text" name="email" placeholder="Type Email" id="email">
 </div>
 <div class="single-input mt-4">
 <label class="label-title mb-3"> Phone Number </label>
@@ -66,7 +66,7 @@
 <div class="input-flex-item">
 <div class="single-input mt-4">
 <label class="label-title mb-3"> Create Password </label>
-<input class="form--control" type="password" name="name" placeholder="Type Password">
+<input class="form--control" type="password" name="name" placeholder="Type Password" id="password">
 <div class="icon toggle-password">
 <div class="show-icon"> <i class="las la-eye-slash"></i> </div>
 <span class="hide-icon"> <i class="las la-eye"></i> </span>
@@ -86,7 +86,7 @@
 <label class="checkbox-label" for="check15"> By creating an account, you agree to the <a class="color-one" href="javascript:void(0)"> terms of service </a> and <a class="color-one" href="javascript:void(0)"> Conditions </a>,
 and <a class="color-one" href="javascript:void(0)"> privacy policy </a> </label>
 </div>
-<button class="submit-btn w-100 mt-4" type="submit"> Sign Up Now </button>
+<button class="submit-btn w-100 mt-4" type="submit" onclick="sendData()"> Sign Up Now </button>
 <span class="account color-light mt-3"> Already have an account? <a class="color-one" href="login.html"> Login </a> </span>
 </form>
 </div>
@@ -99,6 +99,7 @@ and <a class="color-one" href="javascript:void(0)"> privacy policy </a> </label>
 <div class="mouse-move mouse-outer"></div>
 <div class="mouse-move mouse-inner"></div>
 
+<script src="/javascript/getData.js"></script>
 
 <script src="assets/js/jquery-3.6.0.min.js"></script>
 
