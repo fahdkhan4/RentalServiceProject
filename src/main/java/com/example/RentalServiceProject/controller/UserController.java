@@ -71,17 +71,21 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<UserDto> SignUp_addingUser(@RequestParam("file") MultipartFile image,@RequestParam("data") String userdata,@RequestParam("isServiceProvider") boolean isServiceProvider){
+    public ResponseEntity<UserDto> SignUp_addingUser(@RequestParam("file") MultipartFile image,@RequestParam("data") String userdata){
         try{
             if(image.isEmpty()){
 //                                                                         throw image error if empty
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+            if(!image.isEmpty()){
+                System.out.println("images yes");
+            }
+            System.out.println(userdata);
 //                                                                    converting String into UserDto Object
             ObjectMapper mapper = new ObjectMapper();
             UserDto userDto = mapper.readValue(userdata,UserDto.class);
 //                                                                     Adding user and file in db
-            return ResponseEntity.ok(userService.saveUserInDb(userDto,image,isServiceProvider));
+            return ResponseEntity.ok(userService.saveUserInDb(userDto,image));
         }
         catch (Exception e){
             System.out.println(e);

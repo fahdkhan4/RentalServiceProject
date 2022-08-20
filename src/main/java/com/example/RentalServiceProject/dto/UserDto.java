@@ -27,6 +27,9 @@ public class UserDto {
     @Email(message = "Invalid Email")
     private String email;
     private String cnic;
+    private String type;
+    private String gender;
+    private String address;
     private Set<Roles> roles = new HashSet<Roles>();
     private InitialStatus status = InitialStatus.in_review;
 

@@ -122,12 +122,12 @@ public class AdminService {
     }
 
 //                                                              Saving Roles in Database
-    public Roles addRolesInDb(Roles roles) {
-        if(roles.getName() == null){
-            throw new ContentNotFoundException("Roles Cannot be Empty !");
-        }
-        return rolesRepository.save(roles);
-    }
+//    public Roles addRolesInDb(Roles roles) {
+//        if(roles.getName() == null){
+//            throw new ContentNotFoundException("Roles Cannot be Empty !");
+//        }
+//        return rolesRepository.save(roles);
+//    }
 
 
 
