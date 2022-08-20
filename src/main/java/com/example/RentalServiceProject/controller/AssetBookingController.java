@@ -31,6 +31,7 @@ public class AssetBookingController {
     @PostMapping("/assetbooking")
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<AssetBookingDto> addAssetbooking(@RequestBody AssetBookingDto assetbookingDto){
+        System.out.println(assetbookingDto);
         try{
             return ResponseEntity.ok(assetBookingService.addAssetBooking_In_db(assetbookingDto));
         }

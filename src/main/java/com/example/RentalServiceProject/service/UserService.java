@@ -22,7 +22,6 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,26 +41,29 @@ public class UserService implements ImageStorage {
     private final String userImageLocation =  "http://localhost:8081/api/image/userimages/";
 
     public UserDto saveUserInDb(UserDto userDto, MultipartFile image) {
-//                                                                          Image Saved
-        Set<Roles> roles=new HashSet<>();
-        saveImage(image);
-//                                                                          Setting image path to save in database
+//                                                                           HashSet to set roles
+            HashSet<Roles> hashSet = new HashSet<>();
+//                                                                           Image Saved
+            saveImage(image);
+//                                                                           Setting image path to save in database
             String userImagePath = userImageLocation+image.getOriginalFilename();
             userDto.setImage(userImagePath);
-//                                                                          Encrypting password
+//                                                                           Encrypting password
             userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-//                                                                          Assigning Role and Status to user
+//                                                                           Assigning Role and Status to user
             if(userDto.getType().equalsIgnoreCase("SERVICE_PROVIDER")){
+
+                hashSet.add(rolesRepository.findByName("ROLE_SERVICE_PROVIDER"));
+                hashSet.add(rolesRepository.findByName("ROLE_CUSTOMER"));
                 userDto.setStatus(InitialStatus.in_review);
 
-                roles.add(rolesRepository.findByName("ROLE_SERVICE_PROVIDER"));
-                roles.add(rolesRepository.findByName("ROLE_CUSTOMER"));
-                userDto.setRoles(roles);
+                userDto.setRoles(hashSet);
             }
             else{
+                hashSet.add(rolesRepository.findByName("ROLE_CUSTOMER"));
                 userDto.setStatus(InitialStatus.Published);
-              roles.add(rolesRepository.findByName("ROLE_CUSTOMER"));
-              userDto.setRoles(roles);
+
+                userDto.setRoles(hashSet);
             }
             return toDto(userRepository.save(dto(userDto)));
     }
@@ -78,13 +80,20 @@ public class UserService implements ImageStorage {
         return  userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Long id) {
-
-        Optional<User> getUserById = userRepository.findById(id);
-        if(getUserById.isPresent()){
-            return getUserById;
+//    public Optional<User> getUserById(Long id) {
+//
+//        Optional<User> getUserById = userRepository.findById(id);
+//        if(getUserById.isPresent()){
+//            return getUserById;
+//        }
+//        throw new ContentNotFoundException("No User present with id of "+id);
+//    }
+    public Optional<User> getUserByEmail(String email) {
+        Optional<User> byEmail = Optional.of(userRepository.findByEmail(email));
+        if(byEmail.isPresent()){
+            return byEmail;
         }
-        throw new ContentNotFoundException("No User present with id of "+id);
+        throw new ContentNotFoundException("No User present with Email of "+email);
     }
 
     public void deleteUser(Long id) {
@@ -100,6 +109,8 @@ public class UserService implements ImageStorage {
                 updateUser.setEmail(userDto.getEmail());
                 updateUser.setCnic(userDto.getCnic());
                 updateUser.setNumber(userDto.getNumber());
+                updateUser.setAddress(userDto.getAddress());
+                updateUser.setGender(userDto.getGender());
             }
 
          return toDto(userRepository.save(updateUser));
@@ -112,14 +123,12 @@ public class UserService implements ImageStorage {
     }
 
     public User dto(UserDto dto){
-        return User.builder().Id(dto.getId()).name(dto.getName()).gender(dto.getGender())
-                .address(dto.getAddress()).password(dto.getPassword()).type(dto.getType())
-                .image(dto.getImage()).cnic(dto.getCnic()).email(dto.getEmail())
-                .status(dto.getStatus()).number(dto.getNumber()).roles(dto.getRoles()).build();
+        return User.builder().Id(dto.getId()).name(dto.getName()).password(dto.getPassword()).image(dto.getImage()).cnic(dto.getCnic()).email(dto.getEmail())
+                .status(dto.getStatus()).type(dto.getType()).address(dto.getAddress()).gender(dto.getGender()).number(dto.getNumber()).roles(dto.getRoles()).build();
     }
     public UserDto toDto(User user){
-        return UserDto.builder().Id(user.getId()).name(user.getName()).type(user.getType()).image(user.getImage()).cnic(user.getCnic()).email(user.getEmail())
-                .status(user.getStatus()).number(user.getNumber()).address(user.getAddress()).gender(user.getGender()).roles(user.getRoles()).build();
+        return UserDto.builder().Id(user.getId()).name(user.getName()).image(user.getImage()).cnic(user.getCnic()).email(user.getEmail())
+                .status(user.getStatus()).type(user.getType()).address(user.getAddress()).gender(user.getGender()).number(user.getNumber()).roles(user.getRoles()).build();
     }
 //                                                                Get user image from the disk
     @Override

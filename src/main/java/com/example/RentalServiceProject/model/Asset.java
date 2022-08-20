@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -23,8 +24,11 @@ public class Asset {
     private String name;
     private Double pricePerDay;
     private String image;
-    private String location;
+    private String address;
     private String type;
+    private String startDate;
+    private String endDate;
+    private String city;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;
     @ManyToOne

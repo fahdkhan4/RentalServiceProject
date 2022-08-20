@@ -30,12 +30,12 @@ public class LoginController {
     @PostMapping("/login")
     public ResponseEntity<AuthenticationResponse>  createAuthenticationToken(@RequestBody  LoginCredentials loginCredentials) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginCredentials.getUsername(),loginCredentials.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginCredentials.getEmail(),loginCredentials.getPassword()));
         }
         catch (BadCredentialsException e){
             throw new Exception("Incorrect Username and Password !",e);
         }
-        UserDetails userDetails = customUserDetailService.loadUserByUsername(loginCredentials.getUsername());
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(loginCredentials.getEmail());
         String jwtToken = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));

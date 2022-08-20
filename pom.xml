@@ -112,6 +112,11 @@
 			<artifactId>jaxb-api</artifactId>
 			<version>2.3.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.sonatype.aether</groupId>
+			<artifactId>aether-spi</artifactId>
+			<version>1.7</version>
+		</dependency>
 
 
 	</dependencies>

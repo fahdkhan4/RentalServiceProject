@@ -16,38 +16,38 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class RentalServiceProjectApplicationTests {
-
-	@Autowired
-	private UserService userService;
-
-	@MockBean
-	private UserRepository userRepository;
-
+//
+//	@Autowired
+//	private UserService userService;
+//
+//	@MockBean
+//	private UserRepository userRepository;
+//
+////	@Test
+////	public void getUserTestTest(){
+////		List<User> userdetails = new ArrayList<>();
+////		User user1 = new User(1l,"fahd","123","aa","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
+////		User user2 = new User(2l,"ali","123","aa","alikhan@gmail.com","seller","111", InitialStatus.in_review);
+////		userdetails.add(user1);
+////		userdetails.add(user2);
+////		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
+////		assertEquals(2,userService.getUsersbyStatus().size());
+////	}
+//
 //	@Test
-//	public void getUserTestTest(){
-//		List<User> userdetails = new ArrayList<>();
-//		User user1 = new User(1l,"fahd","123","aa","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
-//		User user2 = new User(2l,"ali","123","aa","alikhan@gmail.com","seller","111", InitialStatus.in_review);
-//		userdetails.add(user1);
-//		userdetails.add(user2);
-//		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
-//		assertEquals(2,userService.getUsersbyStatus().size());
+//	public void getUsersTest(){
+//
+////		User user1 = new User(1l,"fahd","123","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
+////		User user2 = new User(2l,"ali","123","alikhan@gmail.com","seller","111", InitialStatus.in_review);
+////		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
+////		when(userRepository.findByStatus(InitialStatus.in_review)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
+//////		No user found error should be generated
+////		assertEquals(2,userService.getUsersbyStatus().size());
+//
 //	}
-
-	@Test
-	public void getUsersTest(){
-
-//		User user1 = new User(1l,"fahd","123","fahdkhan@gmail.com","seller","222", InitialStatus.in_review);
-//		User user2 = new User(2l,"ali","123","alikhan@gmail.com","seller","111", InitialStatus.in_review);
-//		when(userRepository.findByStatus(InitialStatus.Published)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
-//		when(userRepository.findByStatus(InitialStatus.in_review)).thenReturn(Stream.of(user1,user2).collect(Collectors.toList()));
-////		No user found error should be generated
-//		assertEquals(2,userService.getUsersbyStatus().size());
-
-	}
-
-	@Test
-	public void getUserByIdTest(){
+//
+//	@Test
+//	public void getUserByIdTest(){
 
 //		User user2 = new User(2l,"ali","123","alikhan@gmail.com","seller","111", InitialStatus.in_review);
 //		Optional<User> user = Optional.of(user2);
@@ -57,5 +57,3 @@ class RentalServiceProjectApplicationTests {
 
 	}
 
-
-}

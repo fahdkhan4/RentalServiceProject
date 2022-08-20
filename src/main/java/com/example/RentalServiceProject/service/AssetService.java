@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -87,7 +88,7 @@ public class AssetService implements ImageStorage {
         Asset update_asset = getAllAssets().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(update_asset != null){
             update_asset.setName(assetDto.getName());
-            update_asset.setLocation(assetDto.getLocation());
+            update_asset.setAddress(assetDto.getLocation());
             update_asset.setPricePerDay(assetDto.getPricePerDay());
             update_asset.setType(assetDto.getType());
         }
@@ -133,14 +134,28 @@ public class AssetService implements ImageStorage {
 
         return  assetImageRepository.save(assetImages);
     }
+    public List<String> getAssetCities(){
+        List<String> cities =  assetRepository.getAssetCities();
+        return removeDuplicates(cities);
+    }
+
+    private List<String> removeDuplicates(List<String> list) {
+        List<String> newList = new ArrayList<>();
+        for (String city : list) {
+            if (!newList.contains(city)) {
+                newList.add(city);
+            }
+        }
+        return newList;
+    }
 
     public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).location(assetDto.getLocation())
+        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).address(assetDto.getLocation())
                 .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
     }
 
     public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getLocation())
+        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getAddress())
                 .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
     }
 }
