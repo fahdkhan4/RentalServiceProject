@@ -19,13 +19,10 @@ import java.time.LocalDate;
 public class AssetBookingDto {
 
     private Long Id;
-    @NotEmpty
     private Asset asset;
-    @NotEmpty
     private User user;
-    private LocalDate startDate;
-    private LocalDate endDate;
-    @PositiveOrZero
+    private String startDate;
+    private String endDate;
     private Double price;
     private InitialStatus status = InitialStatus.in_review;
 

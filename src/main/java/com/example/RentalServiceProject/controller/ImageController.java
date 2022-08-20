@@ -25,7 +25,7 @@ public class ImageController {
       AssetService assetService;
 //                                                                  Api to get User Image
         @GetMapping("/image/userimages/{fileName}")
-        @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN') or hasRole('SERVICE_PROVIDER')")
+//        @PreAuthorize("hasRole('CUSTOMER') or hasRole('ADMIN') or hasRole('SERVICE_PROVIDER')")
         public void getUserImage(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
             InputStream inputStream = userService.getImageByName(fileName);
             response.setContentType(MediaType.IMAGE_JPEG_VALUE);

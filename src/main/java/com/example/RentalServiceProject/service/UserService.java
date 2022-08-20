@@ -38,7 +38,7 @@ public class UserService implements ImageStorage {
 
 
     private final String imageFolderPath = Paths.get("src/main/resources/static/image/userimages").toString();
-    private final String userImageLocation =  "http://localhost:8080/api/image/userimages/";
+    private final String userImageLocation =  "http://localhost:8081/api/image/userimages/";
 
     public UserDto saveUserInDb(UserDto userDto, MultipartFile image) {
 //                                                                           HashSet to set roles
