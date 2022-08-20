@@ -14,5 +14,5 @@ public interface UserRepository extends JpaRepository<User,Long>, JpaSpecificati
        List<User> findByStatus(InitialStatus status);
        User findByNameAndStatus(String name,InitialStatus initialStatus);
        @Query("select distinct u from User u left join fetch u.roles where u.email = ?1")
-       User findByEmail(String username);
+       User findByEmail(String email);
 }

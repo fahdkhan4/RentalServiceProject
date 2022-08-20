@@ -35,7 +35,7 @@ public class LoginController {
         catch (BadCredentialsException e){
             throw new Exception("Incorrect Username and Password !",e);
         }
-            UserDetails userDetails = customUserDetailService.loadUserByUsername(loginCredentials.getEmail());
+        UserDetails userDetails = customUserDetailService.loadUserByUsername(loginCredentials.getEmail());
         String jwtToken = jwtUtil.generateToken(userDetails);
 
         return ResponseEntity.ok(new AuthenticationResponse(jwtToken));

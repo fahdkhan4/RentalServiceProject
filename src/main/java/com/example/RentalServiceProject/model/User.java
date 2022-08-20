@@ -26,17 +26,16 @@ public class User {
     private String image;
     private String email;
     private String password;
+    private String type;
+    private String address;
     @ManyToMany
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id") ,
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Roles> roles = new HashSet<Roles>();
+
     private String cnic;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.Published;
 
-//
-//    public void addRole(Roles role){
-//        this.roles.add(role);
-//    }
 }

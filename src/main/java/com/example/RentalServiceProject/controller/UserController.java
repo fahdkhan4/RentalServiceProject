@@ -31,10 +31,16 @@ public class UserController {
         return ResponseEntity.ok(getUsers);
     }
 //                                                                          get user by id
-    @GetMapping("/user/{id}")
-    public ResponseEntity<Optional<User>> get_Users_by_Id(@PathVariable Long id){
-        Optional<User> getbyid = userService.getUserById(id);
-        return ResponseEntity.ok(getbyid);
+//    @GetMapping("/user/{id}")
+//    public ResponseEntity<Optional<User>> get_Users_by_Id(@PathVariable Long id){
+//        Optional<User> getbyid = userService.getUserById(id);
+//        return ResponseEntity.ok(getbyid);
+//    }
+
+    @GetMapping("/user/{email}")
+    public ResponseEntity<Optional<User>> get_Users_by_Email(@PathVariable String email){
+        Optional<User> getbyEmail = userService.getUserByEmail(email);
+        return ResponseEntity.ok(getbyEmail);
     }
 //                                                                         Admin can Delete user only
     @DeleteMapping("/user/{id}")
@@ -75,8 +81,9 @@ public class UserController {
         try{
             if(image.isEmpty()){
 //                                                                         throw image error if empty
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+            System.out.println(userdata);
 //                                                                    converting String into UserDto Object
             ObjectMapper mapper = new ObjectMapper();
             UserDto userDto = mapper.readValue(userdata,UserDto.class);

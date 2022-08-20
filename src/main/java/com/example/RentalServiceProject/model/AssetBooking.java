@@ -26,8 +26,8 @@ public class AssetBooking {
     private Asset asset;
     @ManyToOne
     private User user;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
     private Double price;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;

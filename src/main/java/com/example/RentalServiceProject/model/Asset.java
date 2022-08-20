@@ -24,7 +24,7 @@ public class Asset {
     private String name;
     private Double pricePerDay;
     private String image;
-    private String location;
+    private String address;
     private String type;
     private String startDate;
     private String endDate;
