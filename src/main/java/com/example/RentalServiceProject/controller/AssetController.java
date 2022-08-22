@@ -27,7 +27,7 @@ public class AssetController {
     AssetService assetService;
 //                                                                                     get asset by status Published
     @GetMapping("/asset")
-    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
+//    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
     public ResponseEntity<List<Asset>> getAssetByStatus(){
         List<Asset> assets = assetService.getAssetByStatus();
         return ResponseEntity.ok(assets);
