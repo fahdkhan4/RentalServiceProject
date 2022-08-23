@@ -16,5 +16,5 @@ function checking_In(){
     }
     //                                                          converting the object into query parameter
     const qs = new URLSearchParams(details).toString()
-    window.open("http://localhost:8080/checkout.html?"+qs,"_self")
+    window.open("http://127.0.0.1:5500/checkout.html?"+qs,"_self")
 }
