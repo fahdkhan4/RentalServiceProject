@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Data
@@ -21,14 +22,15 @@ public class AssetDto {
     private String name;
     private Double pricePerDay;
     private String image;
-    private String location;
-    private String startDate;
-    private String endDate;
+    private String address;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String city;
     private String type;
     private InitialStatus status = InitialStatus.in_review;
     private User user;
 
-
+    private Double startingPrice;
+    private Double endingPrice;
 
 }

@@ -81,7 +81,7 @@ public class UserController {
         try{
             if(image.isEmpty()){
 //                                                                         throw image error if empty
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
             System.out.println(userdata);
 //                                                                    converting String into UserDto Object
