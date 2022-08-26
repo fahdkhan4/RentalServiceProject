@@ -200,7 +200,7 @@ function addingBooking() {
         .then((data) => {
             if (data != null) {
                 // return the booking number in the query param 
-                window.open("http://127.0.0.1:5500/confirmation.html?bookingNumber="+data.id+"&customer_name="+userdetails[0].name, "_self")
+                window.open("/confirmation.html?bookingNumber="+data.id+"&customer_name="+userdetails[0].name, "_self")
             }
         })
         .catch((error) => console.log(error))

@@ -26,7 +26,7 @@ function checkLoginCredentials(){
         if(jwtToken != null){
             localStorage.setItem("email",email)
             localStorage.setItem("jwtToken",jwtToken)
-            window.open("http://127.0.0.1:5500/listing.html","_self")
+            window.open("/listing.html","_self")
         }
         else{
             alert("Wrong password")

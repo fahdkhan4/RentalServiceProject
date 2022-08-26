@@ -1,0 +1,48 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+
+
+            <form class="form-inline" [formGroup]="searchFilter" (ngSubmit)="submitFilters()">
+                <div class="form-group mx-sm-3 mb-2">
+                    <label class="mr-1">Check In Date</label>
+                    <input type="date" class="form-control"  placeholder="Date" formControlName="checkInDate">
+                    <label class="mr-1 ml-1">Check Out Date</label>
+                    <input type="date" class="form-control" placeholder="Date" formControlName="checkOutDate">
+                    <label class="mr-1 ml-1"> Select Brand</label>
+                    <select class="form-control" formControlName="brand">
+                        <option >Kia</option>
+                        <option>Honda</option>
+                        <option>Toyata</option>
+                    </select>
+                    <a class="ml-2 pe-auto" (click)="clearFilter()">Clear Filter</a>
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </form>
+
+            <div class="row p-2 bg-white border rounded" *ngFor="let item of carList">
+                <div class="col-md-6 mt-1">
+                    <img class="img-fluid img-responsive rounded product-image" [src]="url+item.image">
+                </div>
+                <div class="col-md-6 mt-1">
+                    <span id="carName">{{item.name}}</span><span id="carPrice"
+                        class="mr-1 ml-5">{{item.price}}</span><span>/day</span>
+                    <div class="mt-1 mb-1 spec-1">
+                        <span style="font-weight: bolder;color: black;">Model:</span>
+                        <span>{{item.modelNumber}}</span><br>
+                        <span style="font-weight: bolder;color: black;">Color:</span>
+                        <span>{{item.color}}</span><br>
+                        <span style="font-weight: bolder;color: black;">Brand:</span>
+                        <span>{{item.brand}}</span>
+                    </div>
+
+                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button"
+                            (click)="bookNow(item.id)">BOOk NOW</button></div>
+
+                </div>
+
+            </div>
+            <hr>
+        </div>
+    </div>
+</div>

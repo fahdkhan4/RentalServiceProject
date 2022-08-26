@@ -1,0 +1,97 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h5>Enter Car Details</h5>
+        </div>
+        <div class="card-body tab2-card">
+
+            <form [formGroup]="addCar" (ngSubmit)="collectCarData()">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Name</label>
+                            <input class="form-control col-md-7" formControlName="name" 
+                                type="text"  [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required"> Name is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Color</label>
+                            <input class="form-control col-md-7" formControlName="color"
+                              [ngClass]="{ 'is-invalid': submitted && f.color.errors }">
+                                <div *ngIf="submitted && f.color.errors" class="invalid-feedback">
+                                    <div *ngIf="f.color.errors.required"> Color is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Model Number</label>
+                            <input class="form-control col-md-7" formControlName="modelNumber" 
+                             [ngClass]="{ 'is-invalid': submitted && f.modelNumber.errors }">
+                                <div *ngIf="submitted && f.modelNumber.errors" class="invalid-feedback">
+                                    <div *ngIf="f.modelNumber.errors.required"> Model Number is required</div>
+                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Brand</label>
+                            <input class="form-control col-md-7" formControlName="brand" 
+                             [ngClass]="{ 'is-invalid': submitted && f.brand.errors }">
+                                <div *ngIf="submitted && f.brand.errors" class="invalid-feedback">
+                                    <div *ngIf="f.brand.errors.required"> brand is required</div>
+                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car price/day</label>
+                            <input class="form-control col-md-7" formControlName="price" 
+                             [ngClass]="{ 'is-invalid': submitted && f.price.errors }">
+                                <div *ngIf="submitted && f.price.errors" class="invalid-feedback">
+                                    <div *ngIf="f.price.errors.required"> price/day is required</div>
+                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Select Car Owner</label>
+                                <select class="form-control col-md-7" formControlName="owner"
+                                [ngClass]="{ 'is-invalid': submitted && f.owner.errors }" >
+                                <option *ngFor="let item of carOwner" [ngValue]="item">{{item.name}}</option> 
+                            </select>
+                                <div *ngIf="submitted && f.owner.errors" class="invalid-feedback">
+                                    <div *ngIf="f.owner.errors.required"> Select Car Owner is required</div>
+                                </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Upload Car Image</label>
+                            <input type="file"  (change)="handleCategoryBanner($event.target.files); preview($event.target.files)"  name="image"
+                            accept=".jpeg,.png,.jpg,.PNG" formControlName="image">
+                            
+                            <img [src]="imgURL || patchfile " alt="" style="width: 300px;height: 300px;border: none;">
+                                
+                        </div>
+
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+
+
+
+           
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->

@@ -1,0 +1,123 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h5>Enter Car Booking Details</h5>
+        </div>
+        <div class="card-body tab2-card">
+
+            <form [formGroup]="bookedCar" (ngSubmit)="bookedCarData()">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                                First Name</label>
+                            <input class="form-control col-md-7" formControlName="firstName" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }">
+                            <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                                <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                               Last Name</label>
+                            <input class="form-control col-md-7" formControlName="lastName" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }">
+                            <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                                <div *ngIf="f.lastName.errors.required"> Last Name is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                                Mobile Number</label>
+                            <input class="form-control col-md-7" formControlName="mobileNumber" type="number"
+                                [ngClass]="{ 'is-invalid': submitted && f.mobileNumber.errors }">
+                            <div *ngIf="submitted && f.mobileNumber.errors" class="invalid-feedback">
+                                <div *ngIf="f.mobileNumber.errors.required"> Mobile Number is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                               Address</label>
+                            <input class="form-control col-md-7" formControlName="address" type="text"
+                                [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                <div *ngIf="f.address.errors.required">Address is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                               NIC Number</label>
+                            <input class="form-control col-md-7" formControlName="nicNumber" type="number"
+                                [ngClass]="{ 'is-invalid': submitted && f.nicNumber.errors }">
+                            <div *ngIf="submitted && f.nicNumber.errors" class="invalid-feedback">
+                                <div *ngIf="f.nicNumber.errors.required"> NIC Number is required</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Check In Date</label>
+                                <h3 class="form-control col-md-7">{{checkInDate}}</h3>
+                            <!-- <input class="form-control col-md-7" formControlName="checkInDate" type="date"
+                                [ngClass]="{ 'is-invalid': submitted && f.checkInDate.errors }">
+                            <div *ngIf="submitted && f.checkInDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.checkInDate.errors.required"> Check In Date is required</div>
+                            </div> -->
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Check Out Date</label>
+                                <h3 class="form-control col-md-7">{{checkOutDate}}</h3>
+                            <!-- <input class="form-control col-md-7" formControlName="checkOutDate" type="date"
+                                [ngClass]="{ 'is-invalid': submitted && f.checkOutDate.errors }">
+                            <div *ngIf="submitted && f.checkOutDate.errors" class="invalid-feedback">
+                                <div *ngIf="f.checkOutDate.errors.required"> Check Out Date is required</div>
+                            </div> -->
+                        </div>
+                        <div class="form-group row ">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                                Driver</label>
+                            <div class="form-check col-md-7">
+                                
+                                <input class="form-check-input " type="radio" name="driver" (change)="driverOption($event.target.value)"  
+                                    id="flexRadioDefault1" value="yes">
+                                <label class="form-check-label" for="flexRadioDefault1" >
+                                   YES
+                                </label>
+                                <input class="form-check-input ml-4 " type="radio" name="driver" (change)="driverOption($event.target.value)"
+                                    id="flexRadioDefault2" value="no">
+                                <label class="form-check-label ml-5" for="flexRadioDefault2" >
+                                   NO
+                                </label>
+                            </div>
+
+                        </div>
+
+                        <div class="form-group row" *ngIf="driverSelect">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4">
+                                Select Driver</label>
+                                <select class="form-control col-md-7" formControlName="driver"
+                                [ngClass]="{ 'is-invalid': submitted && f.driver.errors }" >
+                                <option *ngFor="let item of driverList" [ngValue]="item">{{item.name}}</option> 
+                            </select>
+                                <div *ngIf="submitted && f.driver.errors" class="invalid-feedback">
+                                    <div *ngIf="f.driver.errors.required"> Driver is required</div>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->
