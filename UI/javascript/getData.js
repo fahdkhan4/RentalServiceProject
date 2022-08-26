@@ -21,17 +21,15 @@ function checkLoginCredentials(){
     .then((response) => response.json())
     .then((jwttoken) => jwtToken = jwttoken.jwt )
     .catch((error)=> console.log(error))
-    
+
     setTimeout(function(){
         if(jwtToken != null){
-            localStorage.setItem("email",email)
-            localStorage.setItem("jwtToken",jwtToken)
-            window.open("/listing.html","_self")
+            localStorage.setItem("jettoken",JSON.stringify(jwtToken));
+                window.open("http://localhost:8080/listing.html?")
         }
         else{
             alert("Wrong password")
         } 
-        
     },300)
 }
 
