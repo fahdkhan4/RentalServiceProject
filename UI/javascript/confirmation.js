@@ -14,8 +14,7 @@ function showBookingConfirmationDetails() {
 }
 
 function generateInvoice(){
-    console.log("Hello");
-    debugger;
+    
     searchQueryParam = window.location.search;
     const urlparams = new URLSearchParams(searchQueryParam)
     booking_id= urlparams.get("bookingNumber")

@@ -10,37 +10,63 @@ function showChecking_In_Data() {
     guest = urlparams.get("guest")
     children = urlparams.get("children")
     room = urlparams.get("room")
+    // price will come in the query param of that asset
+    rentedDays = "";
 
-
-    // date_array = check_in.split("-")
-
-    // console.log("Date"+date_array[0]);
-    // console.log("Month "+date_array[1]);
-    // console.log("Year "+date_array[2]);
-    // stringma= date_array[2].toString()
-    // time_year = stringma.split(" ")
-    // console.log(time_year[0]);
-    // console.log(time_year[1]);
-    // var checkDate = new Date(check_in)
-    // console.log("Check Date : "+checkDate);
-    // var checkoutDate = new Date(check_out)
-    // console.log("Checkout Date : "+checkoutDate);
-    // var newdate = checkoutDate.getDate - checkDate.getDate()
-    // console.log(newdate)    ;
+    //                                                                              Date and time will be splited
+    var [checkin_dateValues,checkin_timeValues] = check_in.split(' ')
+    var [checkout_dateValues,checkout_timeValues] = check_out.split(' ') 
+                                                                                //  Date is splited in day,month,year
+    var [checkin_Date,checkin_Month,checkin_Year] = checkin_dateValues.split('-')
+    var [checkout_Date,checkout_Month,checkout_Year] = checkout_dateValues.split('-')
+    //  2022 calender 
+    var monthDays = {
+        01:31,
+        02:28,
+        03:31,
+        04:30,
+        05:31,
+        06:30,
+        07:31,
+        08:31,
+        09:30,
+        10:31,
+        11:30,
+        12:31,
+    }
+   
+    if(checkin_Month == checkout_Month){
+        if(checkin_Date < checkout_Date){
+            rentedDays = checkout_Date - checkin_Date
+        }
+    }
+    else if(checkin_Month != checkout_Month){
+        //  if banda and 3 mahina ka bola to checkin_month sa 1 mahina ajaiga and checkout_date sa last month ka pata chale ga lakin bich wale month ka pata nahe chale ga 
+        // For feburary has 28 days
+                parseCheckInMonth = parseInt(checkin_Month)
+                //  find the days in that month
+                daysinCurrentMonth = monthDays[parseCheckInMonth]
+                //  sub total days in that month with checkin_Date
+                daysInfirstMonth = daysinCurrentMonth - parseInt(checkin_Date)
+                //  
+                rentedDays = daysInfirstMonth + parseInt(checkout_Date)
+            
+    }
+    console.log(rentedDays);
 
     render = ""
     render += `<ul class="checkout-flex-list list-style-none checkout-border-top pt-3 mt-3">
                     <li class="list"> <span class="regular"> Checking In </span> <span class="strong">${check_in}</span> </li>
                     <li class="list"> <span class="regular"> Checking Out </span> <span class="strong">${check_out}</span> </li>
                     <li class="list"> <span class="regular"> Number of Rooms </span> <span class="strong">${room}</span> </li>
-                    <li class="list"> <span class="regular"> Total Stay </span> <span class="strong"> 3 Nights, 1 Days </span> </li>
+                    <li class="list"> <span class="regular"> Total Stay </span> <span class="strong">${rentedDays} Nights, ${rentedDays-1} Days </span> </li>
                     <li class="list"> <span class="regular"> Number of Person </span> <span class="strong">${guest}</span> </li>
                     <li class="list"> <span class="regular"> Number of Children </span> <span class="strong">${children}</span> </li>
                     </ul>`
 
     document.getElementById("sidebar_contents").innerHTML = render;
 }
-showChecking_In_Data();
+
 //                                                      Fetching user data
 function showDataOfUser() {
 
@@ -63,7 +89,6 @@ function showDataOfUser() {
         .catch((error) => console.log(error))
 
     setTimeout(function(){
-        console.log("Show Data of User Method "+userdetails);
     render = ""
     for (let index = 0; index < userdetails.length; index++) {
         render += ` <form action="#">
@@ -136,9 +161,9 @@ function showDataOfUser() {
             </form>`
     }
     document.getElementById("userDetails").innerHTML = render
-    },300)
+    },400)
 }
-showDataOfUser()
+
 //                                                                  Add Booking in the record
 function addingBooking() {
     // token and user data and asset id
@@ -152,6 +177,7 @@ function addingBooking() {
 
     let AssetBookingDto = {
         asset: {
+            // fetch asset id from the query param
             id: 1
         },
         user: {
@@ -180,4 +206,6 @@ function addingBooking() {
         .catch((error) => console.log(error))
       
 }
+showChecking_In_Data();
+showDataOfUser();
 

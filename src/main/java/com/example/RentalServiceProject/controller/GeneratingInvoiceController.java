@@ -20,7 +20,6 @@ public class GeneratingInvoiceController {
     @GetMapping("/generateinvoice/{booking_id}")
     public void generateInvoice(@PathVariable Long booking_id,HttpServletResponse response) throws IOException {
 
-        System.out.println(booking_id+" "+booking_id.getClass().getSimpleName());
         response.setContentType("application/pdf");
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename = invoice.pdf";
