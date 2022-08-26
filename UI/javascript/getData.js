@@ -24,7 +24,8 @@ function checkLoginCredentials(){
 
     setTimeout(function(){
         if(jwtToken != null){
-                window.open(`http://localhost:8080/listing.html?`+qs,"_self")
+            localStorage.setItem("jettoken",JSON.stringify(jwtToken));
+                window.open("http://localhost:8080/listing.html?")
         }
         else{
             alert("Wrong password")
