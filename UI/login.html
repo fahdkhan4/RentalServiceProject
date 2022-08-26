@@ -32,7 +32,7 @@
 </head>
 
 <body>
-    <img src="http://localhost:8080/api/image/userimages/FIFI PIC.jpeg" alt="">
+    <!-- <img src="http://localhost:8080/api/image/userimages/FIFI PIC.jpeg" alt=""> -->
     <section class="login-area padding-top-100 padding-bottom-100">
         <div class="container">
             <div class="login-wrapper login-shadow bg-white">
@@ -64,8 +64,9 @@
                             <span class="account color-light mt-3"> Don't have an account? <a class="color-one"
                                     href="signup.html"> SignUp Now </a> </span>
                         </form>
-                        <button onclick="checkLoginCredentials()">Sign in now</button>
-        
+                        <div style="display:flex;justify-content: center;background-color: lightblue;border:none;">
+                        <button id="myButton" onclick="checkLoginCredentials()" style="border: none;background-color: lightblue;padding: 13px 10px;">Login in </button>
+                        </div>
 
                         <div class="single-checkbox mt-3">
                             <div class="checkbox-inline">

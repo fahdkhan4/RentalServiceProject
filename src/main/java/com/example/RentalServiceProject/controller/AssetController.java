@@ -33,10 +33,9 @@ public class AssetController {
     AssetService assetService;
 //                                                                                     get asset by status Published
     @GetMapping("/asset")
-    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
-    public ResponseEntity<List<Asset>> getAssetByStatus(@RequestParam(value = "pageNumber") Integer pageNumber,
-                                                        @RequestParam(value = "pageSize") Integer pageSize){
-        List<Asset> assets = assetService.getAssetByStatus(pageNumber, pageSize);
+//    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
+    public ResponseEntity<List<Asset>> getAssetByStatus(){
+        List<Asset> assets = assetService.getAssetByStatus();
         return ResponseEntity.ok(assets);
     }
 //                                                                                      get asset by id
@@ -141,4 +140,5 @@ public class AssetController {
             return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
 }
