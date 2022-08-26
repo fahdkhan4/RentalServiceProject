@@ -1,0 +1,36 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Number</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of collection">
+                        <th scope="row">{{item.id}}</th>
+                        <td>{{item.name}}</td>
+                        <td>{{item.number}}</td>
+                        <td>{{item.address}}</td>
+                        <td>
+                            <i (click)="deleteCarOwner(item.id)" class="fa fa-trash"
+                                style="font-size:20px;color:red;"></i>&nbsp;&nbsp;&nbsp;
+                            <a routerLink="/carOwner/create-carOwner/{{item.id}}"><i class="fa fa-edit"
+                                    style="font-size:20px;color:blue;"></i></a>&nbsp;&nbsp;&nbsp;
+                                    <a routerLink="/cars/list-cars/{{item.id}}" style="color: brown;">View Owner Cars</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

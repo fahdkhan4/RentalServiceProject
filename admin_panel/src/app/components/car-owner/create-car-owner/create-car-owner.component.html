@@ -1,0 +1,55 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-header">
+            <h5>Enter Car Owner Details</h5>
+        </div>
+        <div class="card-body tab2-card">
+
+            <form [formGroup]="addCarOwner" (ngSubmit)="collectCarOwnerData()">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Owner Name</label>
+                            <input class="form-control col-md-7" formControlName="name" 
+                                type="text"  [ngClass]="{ 'is-invalid': submitted && f.name.errors }">
+                                <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                    <div *ngIf="f.name.errors.required"> Name is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Owner Address</label>
+                            <input class="form-control col-md-7" formControlName="address"
+                              [ngClass]="{ 'is-invalid': submitted && f.address.errors }">
+                                <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                    <div *ngIf="f.address.errors.required"> Address is required</div>
+                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="validationCustom0" class="col-xl-3 col-md-4"><span>*</span>
+                                Car Owner Number</label>
+                            <input class="form-control col-md-7" formControlName="number" 
+                             [ngClass]="{ 'is-invalid': submitted && f.number.errors }">
+                                <div *ngIf="submitted && f.number.errors" class="invalid-feedback">
+                                    <div *ngIf="f.number.errors.required"> Number is required</div>
+                                </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="pull-right">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+
+
+
+
+           
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->

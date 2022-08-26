@@ -1,0 +1,43 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+
+            <table class="table table-light">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Model Number</th>
+                        <th scope="col">Brand</th>
+                        <th scope="col">Price/day</th>
+                        <th scope="col">Car Owner</th>
+                        <th scope="col">Actions</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of collection">
+                        <th scope="row">{{item.id}}</th>
+                        <td><img style="width: 100px; height: 100px;" [src]="url+item.image"></td>
+                        <td>{{item.name}}</td>
+                        <td>{{item.color}}</td>
+                        <td>{{item.modelNumber}}</td>
+                        <td>{{item.brand}}</td>
+                        <td>{{item.price}}</td>
+                        <td>{{item.owner.name}}</td>
+                        <td>
+                            <i (click)="deleteCar(item.id)" class="fa fa-trash"
+                                style="font-size:20px;color:red;"></i>&nbsp;&nbsp;&nbsp;
+                            <a routerLink="/cars/add-cars/{{item.id}}"><i class="fa fa-edit"
+                                    style="font-size:20px;color:blue;"></i></a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
