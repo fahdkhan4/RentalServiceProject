@@ -32,12 +32,13 @@ public class AssetController {
     @Autowired
     AssetService assetService;
 //                                                                                     get asset by status Published
-    @GetMapping("/asset")
-//    @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
-    public ResponseEntity<List<Asset>> getAssetByStatus(){
-        List<Asset> assets = assetService.getAssetByStatus();
-        return ResponseEntity.ok(assets);
-    }
+@GetMapping("/asset")
+@PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
+public ResponseEntity<List<Asset>> getAssetByStatus(@RequestParam(value = "pageNumber") Integer pageNumber,
+                                                    @RequestParam(value = "pageSize") Integer pageSize){
+    List<Asset> assets = assetService.getAssetByStatus(pageNumber, pageSize);
+    return ResponseEntity.ok(assets);
+}
 //                                                                                      get asset by id
     @GetMapping("/asset/cities")
     @PreAuthorize("hasRole('SERVICE_PROVIDER') or hasRole('CUSTOMER') or hasRole('ADMIN') ")
