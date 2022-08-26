@@ -12,6 +12,8 @@ import com.example.RentalServiceProject.repo.AssetImageRepository;
 import com.example.RentalServiceProject.repo.AssetRepository;
 import com.example.RentalServiceProject.repo.specification.AssetSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,6 +23,8 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,9 +53,16 @@ public class AssetService implements ImageStorage {
         }
         throw new ContentNotFoundException("No Asset Found in Record");
     }
-
     public List<Asset> getAssetByStatus(){
         List<Asset> assetList = assetRepository.findByStatus(InitialStatus.Published);
+        if(!assetList.isEmpty()){
+            return assetList;
+        }
+        throw new ContentNotFoundException("No Asset Found in Record ");
+    }
+    public List<Asset> getAssetByStatus(Integer pageNumber, Integer pageSize){
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        List<Asset> assetList = assetRepository.findByStatus(InitialStatus.Published, pageable);
         if(!assetList.isEmpty()){
             return assetList;
         }
@@ -67,7 +78,7 @@ public class AssetService implements ImageStorage {
 //                                                                  setting path of image to store in Database
         String assetImagePath  = assetImageFileLocation+image.getOriginalFilename();
         assetDto.setImage(assetImagePath);
-//                                                                  Save Asset in Database
+//                                                         Save Asset in Database
         return todto(assetRepository.save(dto(assetDto)));
     }
 
@@ -88,7 +99,7 @@ public class AssetService implements ImageStorage {
         Asset update_asset = getAllAssets().stream().filter(el->el.getId().equals(id)).findAny().get();
         if(update_asset != null){
             update_asset.setName(assetDto.getName());
-            update_asset.setAddress(assetDto.getLocation());
+            update_asset.setAddress(assetDto.getAddress());
             update_asset.setPricePerDay(assetDto.getPricePerDay());
             update_asset.setType(assetDto.getType());
         }
@@ -122,7 +133,8 @@ public class AssetService implements ImageStorage {
     }
 //                                                                          Add Multiple Asset images in AssetImages Database
     public AssetImages uploadAssetImage(Long id,MultipartFile image) {
-        Asset asset = getAssetByStatus().stream().filter(asset1 -> asset1.getId().equals(id)).findAny().get();
+        System.out.println(id);
+        Asset asset = assetRepository.getAssetById(id);
 //                                                                          Image will be Saved in Disk
         saveImage(image);
 //                                                                          Creating path of assetImage to store in DB
@@ -150,12 +162,40 @@ public class AssetService implements ImageStorage {
     }
 
     public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).address(assetDto.getLocation())
-                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).user(assetDto.getUser()).build();
+        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).address(assetDto.getAddress())
+                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).startDate(LocalDate.now()).endDate(assetDto.getEndDate()).user(assetDto.getUser()).build();
     }
 
     public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).location(asset.getAddress())
+        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).address(asset.getAddress())
                 .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
+    }
+
+    public List<AssetDto> getAssetByCriteria(AssetDto assetDto, Integer pageNumber, Integer pageSize) {
+        List<AssetDto> assetDtos = new ArrayList<>();
+        List<Asset> assetList;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        try {
+            assetList = assetRepository.findByCriteria(InitialStatus.Published, assetDto.getCity(),
+                        assetDto.getStartingPrice(),
+                    assetDto.getEndingPrice(),
+                    assetDto.getStartDate(),
+                    assetDto.getEndDate());
+            if (!assetList.isEmpty()) {
+                for(Asset asset: assetList){
+                    assetDtos.add(todto(asset));
+                }
+                return assetDtos;
+            }
+        } catch (Exception ex) {
+            throw new ContentNotFoundException("No Asset Found in Record ");
+        }
+        return  null;
+    }
+
+    public List<String> getAllAssetImagesById(Long id) {
+        List<String> assetImages = new ArrayList<>();
+        assetImages = assetRepository.getAllAssetImagesById(id);
+        return assetImages;
     }
 }

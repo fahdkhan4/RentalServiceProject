@@ -26,8 +26,8 @@ public class Asset {
     private String image;
     private String address;
     private String type;
-    private String startDate;
-    private String endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String city;
     @Enumerated(EnumType.STRING)
     private InitialStatus status = InitialStatus.in_review;
