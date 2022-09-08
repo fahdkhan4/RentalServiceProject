@@ -151,7 +151,7 @@ public class AssetService implements ImageStorage {
         return removeDuplicates(cities);
     }
 
-    private List<String> removeDuplicates(List<String> list) {
+    public List<String> removeDuplicates(List<String> list) {
         List<String> newList = new ArrayList<>();
         for (String city : list) {
             if (!newList.contains(city)) {
@@ -162,13 +162,31 @@ public class AssetService implements ImageStorage {
     }
 
     public Asset dto(AssetDto assetDto){
-        return Asset.builder().Id(assetDto.getId()).name(assetDto.getName()).status(assetDto.getStatus()).image(assetDto.getImage()).address(assetDto.getAddress())
-                .type(assetDto.getType()).pricePerDay(assetDto.getPricePerDay()).startDate(LocalDate.now()).endDate(assetDto.getEndDate()).user(assetDto.getUser()).build();
+        return Asset.builder()
+                .Id(assetDto.getId())
+                .name(assetDto.getName())
+                .status(assetDto.getStatus())
+                .image(assetDto.getImage())
+                .address(assetDto.getAddress())
+                .type(assetDto.getType())
+                .city(assetDto.getCity())
+                .pricePerDay(assetDto.getPricePerDay())
+                .startDate(LocalDate.now())
+                .endDate(assetDto.getEndDate())
+                .user(assetDto.getUser()).build();
     }
 
     public AssetDto todto(Asset asset){
-        return AssetDto.builder().Id(asset.getId()).name(asset.getName()).status(asset.getStatus()).image(asset.getImage()).address(asset.getAddress())
-                .type(asset.getType()).pricePerDay(asset.getPricePerDay()).user(asset.getUser()).build();
+        return AssetDto.builder()
+                .Id(asset.getId())
+                .name(asset.getName())
+                .status(asset.getStatus())
+                .image(asset.getImage())
+                .address(asset.getAddress())
+                .type(asset.getType())
+                .pricePerDay(asset.getPricePerDay())
+                .user(asset.getUser())
+                .build();
     }
 
     public List<AssetDto> getAssetByCriteria(AssetDto assetDto, Integer pageNumber, Integer pageSize) {

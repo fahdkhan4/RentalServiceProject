@@ -19,12 +19,16 @@ public interface AssetRepository extends JpaRepository<Asset,Long> , JpaSpecific
 
     List<Asset> findByStatus(InitialStatus status, Pageable pageable);
 
-
     List<Asset> findByStatus(InitialStatus status);
+
+
 
 //    List<Asset> getAssetByCriteria(AssetDto assetDto);
     @Query("SELECT city from Asset")
     List<String> getAssetCities();
+
+    @Query("SELECT type from Asset")
+    List<String> getAllAssetType();
 
 
     @Query(value = "SELECT a from Asset a where a.status = ?1 and a.city = ?2" +

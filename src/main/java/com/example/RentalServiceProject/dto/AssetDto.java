@@ -9,6 +9,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.PrimitiveIterator;
 
 @Data
 @ToString
@@ -32,5 +33,6 @@ public class AssetDto {
 
     private Double startingPrice;
     private Double endingPrice;
+    private String userName;
 
 }

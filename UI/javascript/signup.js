@@ -18,7 +18,7 @@ function sendData(){
         cnic:cnic,
         type:type,
         gender:gender,
-       address:address
+        address:address
     }
 
     obj = JSON.stringify(obj);

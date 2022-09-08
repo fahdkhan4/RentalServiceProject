@@ -11,17 +11,31 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 })
 export class BookingReportsComponent implements OnInit {
   listBookingReport:any = [];
+  allAssets:any = [];
+  assetsType:any = [];
   totalProfit:any;
   constructor(private service:BookingService,private router: Router,
     private route: ActivatedRoute,private toastr:ToastrService) { }
 
   ngOnInit(): void {
+    this.assetType();
+    this.getAllResult();
 
   }
+
+
   searchReportForm = new FormGroup({
     checkInDate: new FormControl(''),
-    checkOutDate: new FormControl('')
+    checkOutDate: new FormControl(''),
+    status: new FormControl('Any'),
+    type: new FormControl('')
   })
+
+  assetType(){
+     this.service.getAllAssetType().subscribe((assetsType)=>{
+      this.assetsType = assetsType;
+     });
+  }
 
   downloadReport(){
      this.service.downloadReport(this.searchReportForm.value.checkInDate,this.searchReportForm.value.checkOutDate).subscribe((d)=>{
@@ -44,9 +58,22 @@ export class BookingReportsComponent implements OnInit {
         }
      })
   }
-  
+
+  getAllResult(){
+    this.service.getAllAsset().subscribe((res)=>{
+    //  console.log(res);
+     debugger
+       this.allAssets = res;
+      console.log(this.allAssets)
+     },err=>{
+       this.toastr.error("Something went wrong")
+     })
+  }
+
+
+
   submitSearchResult(){
-    console.log(this.searchReportForm.value.checkInDate,this.searchReportForm.value.checkOutDate)
+    console.log(this.searchReportForm.value.checkInDate,this.searchReportForm.value.checkOutDate,this.searchReportForm.value.type)
     this.service.getReport(this.searchReportForm.value.checkInDate,this.searchReportForm.value.checkOutDate).subscribe((res)=>{
      console.log(res);
      debugger
@@ -57,4 +84,14 @@ export class BookingReportsComponent implements OnInit {
        this.toastr.error("Something went wrong")
      })
   }
+
+  clearFilter(){
+      this.searchReportForm = new FormGroup({
+      checkInDate: new FormControl(null),
+      checkOutDate: new FormControl(null),
+      status: new FormControl(null),
+      type: new FormControl(null)
+    })
+  }
+
 }

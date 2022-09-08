@@ -8,7 +8,22 @@
                     <input type="date" class="form-control" placeholder="Date" formControlName="checkInDate">
                     <label class="mr-1 ml-1">Check Out Date</label>
                     <input type="date" class="form-control" placeholder="Date" formControlName="checkOutDate">
-                    <a class="ml-2 pe-auto">Clear Filter</a>
+                    <label class="mr-1 ml-1">Status</label>
+                    <select class="form-control" formControlName="status">
+                        <option >Any</option>
+                        <option>Published</option>
+                        <option>Inreview</option>
+                    </select>
+                    <label class="mr-1 ml-1">Type</label>
+                    <select class="form-control" formControlName="type">
+                        <ng-container  *ngFor="let type of assetsType" >
+                            <ng-container *ngIf="type!=null">
+                                <option >{{type}}</option>
+                            </ng-container>
+
+                        </ng-container>
+                    </select>
+                    <a class="ml-2 pe-auto" style="cursor: pointer;" (click)="clearFilter()">Clear Filter</a>
                     <button type="submit" class="btn btn-primary ml-2">Search</button>
                 </div>
             </form>
@@ -19,44 +34,32 @@
                 <table class="table table-light" id="myTable">
                     <thead>
                         <tr>
-                            <th scope="col">Booking id</th>
+                            <th scope="col">Asset id</th>
+                            <th class="pl-5" scope="col">Asset</th>
                             <th scope="col">Price/day</th>
-                            <th scope="col">Customer Name</th>
                             <th scope="col">Owner Name</th>
-                            <th scope="col">Car Name</th>
-                            <th scope="col">Driver Name</th>
-                            <th scope="col">Total Days Booking</th>
-                            <th scope="col">Driver Commision</th>
-                            <th scope="col">Owner Commision</th>
+                            <th scope="col">City</th>
                             <th scope="col">Check In Date</th>
                             <th scope="col">Check Out Date</th>
-                            <th scope="col">Total Amount</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        <tr *ngFor="let item of listBookingReport">
-                            <th scope="row">{{item.id}}</th>
-                            <td>{{item.pricePerDay}}</td>
-                            <td>{{item.customerName}}</td>
-                            <td>{{item.ownerName}}</td>
-                            <td>{{item.carName}}</td>
-                            <td>{{item.driverName}}</td>
-                            <td>{{item.totalDaysCarBooking}}</td>
-                            <td>{{item.driverCommission}}</td>
-                            <td>{{item.ownerCommission}}</td>
-                            <td>{{item.checkInDate}}</td>
-                            <td>{{item.checkOutDate}}</td>
-                            <td>{{item.totalAmount}}</td>
+                        <tr *ngFor="let asset of allAssets">
+                            <th class="pt-4" scope="row">{{asset.id}}</th>
+                            <td>
+                                <img style="width: 50px;height: 50px ;border-radius: 50%;" src={{asset.image}}>
+                                <span class="p-3">{{asset.name}}</span>
+                            </td>
+                            <td class="pt-4" >{{asset.pricePerDay}}</td>
+                            <td class="pt-4" >{{asset.user.name}}</td>
+                            <td class="pt-4" >{{asset.city}}</td>
+                            <td class="pt-4" >{{asset.startDate}}</td>
+                            <td class="pt-4" >{{asset.endDate}}</td>
                         </tr>
 
                     </tbody>
                 </table>
-            </div>
-            <div class="text-right mr-3">
-                <span class="totalProfit">Total Profit:</span>
-                <span class="totalProfitNumber">{{totalProfit}}</span>
-
             </div>
         </div>
     </div>

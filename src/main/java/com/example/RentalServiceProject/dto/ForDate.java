@@ -15,7 +15,7 @@ public class ForDate {
     private String name;
     private Double pricePerDay;
     private String image;
-    private String location;
+    private String address;
     private String startDate;
     private String endDate;
     private String city;

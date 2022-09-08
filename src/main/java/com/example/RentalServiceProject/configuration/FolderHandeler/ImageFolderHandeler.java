@@ -50,7 +50,7 @@ public class ImageFolderHandeler {
                 System.out.println("Asset Images Folder is Created");
             }
             else{
-                System.out.println("Asset Imagea Folder is Already Exist");
+                System.out.println("Asset Image Folder is Already Exist");
             }
 
         }catch (Exception e){

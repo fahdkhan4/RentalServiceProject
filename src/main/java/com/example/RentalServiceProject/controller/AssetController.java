@@ -117,7 +117,19 @@ public ResponseEntity<List<Asset>> getAssetByStatus(@RequestParam(value = "pageN
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
              }
             ObjectMapper mapper = new ObjectMapper();
-            AssetDto assetDto = mapper.readValue(assetDetails,AssetDto.class);
+
+            ForDate object = mapper.readValue(assetDetails,ForDate.class);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+
+            LocalDate endDate = LocalDate.parse(object.getEndDate());
+            AssetDto assetDto = new AssetDto();
+            assetDto.setName(object.getName());
+            assetDto.setCity(object.getCity());
+            assetDto.setEndDate(endDate);
+            assetDto.setType(object.getType());
+            assetDto.setAddress(object.getAddress());
+            assetDto.setUser(object.getUser());
+            assetDto.setPricePerDay(Double.parseDouble(object.getPricePerDay().toString()));
 
             return  ResponseEntity.ok(assetService.addAsset_InDb(assetDto,image));
         }

@@ -1,48 +1,70 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-12">
-
-
             <form class="form-inline" [formGroup]="searchFilter" (ngSubmit)="submitFilters()">
-                <div class="form-group mx-sm-3 mb-2">
-                    <label class="mr-1">Check In Date</label>
-                    <input type="date" class="form-control"  placeholder="Date" formControlName="checkInDate">
-                    <label class="mr-1 ml-1">Check Out Date</label>
-                    <input type="date" class="form-control" placeholder="Date" formControlName="checkOutDate">
-                    <label class="mr-1 ml-1"> Select Brand</label>
-                    <select class="form-control" formControlName="brand">
-                        <option >Kia</option>
-                        <option>Honda</option>
-                        <option>Toyata</option>
-                    </select>
-                    <a class="ml-2 pe-auto" (click)="clearFilter()">Clear Filter</a>
-                </div>
-                <button type="submit" class="btn btn-primary mb-2">Search</button>
-            </form>
+                 <div class="row">
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">Name</label>
+                        <input type="text" class="form-control"  placeholder="Enter Name" formControlName="name">
+                        </div>
 
-            <div class="row p-2 bg-white border rounded" *ngFor="let item of carList">
-                <div class="col-md-6 mt-1">
-                    <img class="img-fluid img-responsive rounded product-image" [src]="url+item.image">
-                </div>
-                <div class="col-md-6 mt-1">
-                    <span id="carName">{{item.name}}</span><span id="carPrice"
-                        class="mr-1 ml-5">{{item.price}}</span><span>/day</span>
-                    <div class="mt-1 mb-1 spec-1">
-                        <span style="font-weight: bolder;color: black;">Model:</span>
-                        <span>{{item.modelNumber}}</span><br>
-                        <span style="font-weight: bolder;color: black;">Color:</span>
-                        <span>{{item.color}}</span><br>
-                        <span style="font-weight: bolder;color: black;">Brand:</span>
-                        <span>{{item.brand}}</span>
+                        <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">Check In Date</label>
+                        <input type="date" class="form-control"  placeholder="Date" formControlName="checkInDate">
+                        </div>
+
+                        <div class="form-group mx-sm-3 mb-2">
+                         <label class="mr-1">Check Out Date</label>
+                        <input type="date" class="form-control" placeholder="Date" formControlName="checkOutDate">
+                        </div>
+                   </div>
+
+                   <div class="row pt-5">
+
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">City</label>
+                        <select class="form-control" formControlName="city">
+                            <option value="">karachi</option>
+                            <option value="">islamabad</option>
+                        </select>
                     </div>
 
-                    <div class="d-flex flex-column mt-4"><button class="btn btn-primary btn-sm" type="button"
-                            (click)="bookNow(item.id)">BOOk NOW</button></div>
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">Address</label>
+                       <input type="text" class="form-control" placeholder="Enter Address" formControlName="address">
+                   </div>
 
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">Price Per Day</label>
+                        <input type="text" class="form-control" placeholder="Enter Price" formControlName="pricePerDay">
+                    </div>
+
+                   </div>
+
+                   <div class="row pt-5">
+
+                    <div class="form-group mx-sm-3 mb-2">
+                        <label class="mr-1">Type</label>
+                        <select class="form-control" formControlName="type">
+                            <option value="">Cars</option>
+                            <option value="">Homes</option>
+                        </select>
+                    </div>
+
+                    <!-- <input id="uploadFile" placeholder="File Name here" disabled="disabled" /> -->
+                    <label class="mr-1">Asset Image</label>
+                    <div class="form-group mx-sm-3 mb-2 fileUpload btn btn-primary">
+                        <span>Upload</span>
+                        <input id="uploadBtn" type="file" class="upload"  formControlName="image">
+                    </div>
+                    <div class="mx-sm-3 mb-2 fileUpload btn btn-danger">
+                        <span>Submit</span>
+                        <input id="button" type="submit" class="upload">
+                    </div>
                 </div>
+            </form>
 
-            </div>
-            <hr>
         </div>
     </div>
 </div>
+

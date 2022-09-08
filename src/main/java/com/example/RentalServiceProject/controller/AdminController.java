@@ -45,26 +45,36 @@ public class AdminController {
     }
 //                                                                              ///// Admin Asset Operations
     @GetMapping("/asset")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<List<Asset>> getALLAsset(){
-        List<Asset> assets = adminService.getAllAssets();
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER') or hasRole('ADMIN')")
+    public ResponseEntity<List<AssetDto>> getALLAsset(){
+        List<AssetDto> assets = adminService.getAllAssets();
         if(!assets.isEmpty()){
             return ResponseEntity.ok(assets);
         }
         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
-    @PatchMapping("/assetstatus/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    public ResponseEntity<AssetDto> getAsset_ForUpdate(@PathVariable Long id, @RequestBody AssetDto assetDto){
-        try{
-            return ResponseEntity.ok(adminService.updateAsset_Status(id,assetDto));
+    @GetMapping("/asset/type")
+    @PreAuthorize("hasRole('CUSTOMER') or hasRole('SERVICE_PROVIDER') or hasRole('ADMIN')")
+    public ResponseEntity<List<String>> getAllAssetType(){
+        List<String> assetsType = adminService.getAllAssetType();
+        if(!assetsType.isEmpty()){
+            return ResponseEntity.ok(assetsType);
         }
-        catch (Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
+
+//    @PatchMapping("/assetstatus/{id}")
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    public ResponseEntity<AssetDto> getAsset_ForUpdate(@PathVariable Long id, @RequestBody AssetDto assetDto){
+//        try{
+//            return ResponseEntity.ok(adminService.updateAsset_Status(id,assetDto));
+//        }
+//        catch (Exception e){
+//            System.out.println(e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//        }
+//    }
     //                                                                              ///// Admin Asset Booking Operations
     @GetMapping("/assetbooking")
     @PreAuthorize("hasRole('ROLE_ADMIN')")
